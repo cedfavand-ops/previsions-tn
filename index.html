@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Previsions Tn/Tx - Vercors et Bagnols-sur-Ceze</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+<style>
+  body { margin: 0; font-family: Arial, sans-serif; }
+  #map { height: 100vh; width: 100%; }
+  .panel {
+    position: absolute; top: 10px; right: 10px; z-index: 1000;
+    background: white; padding: 12px 16px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 14px;
+  }
+  .panel label { display: block; margin: 6px 0; cursor: pointer; }
+  .panel h3 { margin: 0 0 8px 0; font-size: 15px; }
+  .date-info { font-size: 12px; color: #666; margin-top: 8px; }
+  .legend {
+    position: absolute; bottom: 20px; left: 10px; z-index: 1000;
+    background: white; padding: 8px 12px; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 12px;
+  }
+  .legend-gradient {
+    width: 200px; height: 14px;
+    background: linear-gradient(to right, #313695, #74add1, #fee090, #f46d43, #a50026);
+    border-radius: 3px; margin: 4px 0;
+  }
+  .legend-labels { display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="panel">
+  <h3>Couches</h3>
+  <label><input type="radio" name="layer" value="tn_vercors" checked> Tn Vercors (nuit)</label>
+  <label><input type="radio" name="layer" value="tn_bagnols"> Tn Bagnols (nuit)</label>
+  <label><input type="radio" name="layer" value="tx_bagnols"> Tx Bagnols (jour)</label>
+  <div class="date-info" id="date-info">Chargement...</div>
+</div>
+
+<div class="legend">
+  <div id="legend-title">Temperature (degC)</div>
+  <div class="legend-gradient"></div>
+  <div class="legend-labels">
+    <span id="legend-min">-5</span>
+    <span id="legend-max">20</span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+const map = L.map('map').setView([44.6, 4.9], 9);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 14,
+  attribution: '© OpenStreetMap'
+}).addTo(map);
+
+let currentOverlay = null;
+let boundsData = {};
+
+const ranges = {
+  tn_vercors: [-5, 20],
+  tn_bagnols: [5, 25],
+  tx_bagnols: [20, 40]
+};
+
+fetch('bounds.json')
+  .then(r => r.json())
+  .then(data => {
+    boundsData = data;
+    showLayer('tn_vercors');
+  })
+  .catch(err => {
+    document.getElementById('date-info').textContent = 'Erreur de chargement des donnees';
+  });
+
+function showLayer(layerId) {
+  if (currentOverlay) {
+    map.removeLayer(currentOverlay);
+  }
+  const info = boundsData[layerId];
+  if (!info) {
+    document.getElementById('date-info').textContent = 'Donnee non disponible';
+    return;
+  }
+  const bounds = [[info.lat_min, info.lon_min], [info.lat_max, info.lon_max]];
+  currentOverlay = L.imageOverlay(layerId + '.png', bounds, { opacity: 0.75 }).addTo(map);
+
+  const dateStr = info.date.slice(6,8) + '/' + info.date.slice(4,6) + '/' + info.date.slice(0,4);
+  document.getElementById('date-info').textContent = info.nom + ' - ' + dateStr;
+
+  const [vmin, vmax] = ranges[layerId];
+  document.getElementById('legend-min').textContent = vmin + ' degC';
+  document.getElementById('legend-max').textContent = vmax + ' degC';
+
+  if (layerId === 'tn_vercors') {
+    map.setView([45.0, 5.4], 10);
+  } else {
+    map.setView([44.25, 4.55], 10);
+  }
+}
+
+document.querySelectorAll('input[name="layer"]').forEach(input => {
+  input.addEventListener('change', (e) => showLayer(e.target.value));
+});
+</script>
+
+</body>
+</html>
