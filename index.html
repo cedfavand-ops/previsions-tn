@@ -1,104 +1,168 @@
-# Script a executer dans QGIS pour generer les PNG web-compatibles
-# + fichier de donnees JSON pour l'affichage au survol de la souris
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Previsions Tn/Tx - Vercors et Bagnols-sur-Ceze</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+<style>
+  body { margin: 0; font-family: Arial, sans-serif; }
+  #map { height: 100vh; width: 100%; cursor: crosshair; }
+  .panel {
+    position: absolute; top: 10px; right: 10px; z-index: 1000;
+    background: white; padding: 12px 16px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 14px;
+  }
+  .panel label { display: block; margin: 6px 0; cursor: pointer; }
+  .panel h3 { margin: 0 0 8px 0; font-size: 15px; }
+  .date-info { font-size: 12px; color: #666; margin-top: 8px; }
+  .legend {
+    position: absolute; bottom: 20px; left: 10px; z-index: 1000;
+    background: white; padding: 8px 12px; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 12px;
+  }
+  .legend-gradient {
+    width: 200px; height: 14px;
+    background: linear-gradient(to right, #313695, #74add1, #fee090, #f46d43, #a50026);
+    border-radius: 3px; margin: 4px 0;
+  }
+  .legend-labels { display: flex; justify-content: space-between; }
+  .temp-tooltip {
+    position: absolute; z-index: 1001; pointer-events: none;
+    background: rgba(0,0,0,0.8); color: white; padding: 6px 10px;
+    border-radius: 6px; font-size: 14px; font-weight: bold;
+    display: none;
+  }
+</style>
+</head>
+<body>
 
-import numpy as np
-from osgeo import gdal
-import json
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-import os
+<div id="map"></div>
+<div class="temp-tooltip" id="tooltip"></div>
 
-OUTPUT_WEB_DIR = r"C:\Users\cedfa\webmap"
-os.makedirs(OUTPUT_WEB_DIR, exist_ok=True)
+<div class="panel">
+  <h3>Couches</h3>
+  <label><input type="radio" name="layer" value="tn_vercors" checked> Tn Vercors (nuit)</label>
+  <label><input type="radio" name="layer" value="tn_bagnols"> Tn Bagnols (nuit)</label>
+  <label><input type="radio" name="layer" value="tx_bagnols"> Tx Bagnols (jour)</label>
+  <div class="date-info" id="date-info">Chargement...</div>
+  <div class="date-info">Survolez la carte pour voir la temperature</div>
+</div>
 
-def tif_to_png_and_data(tif_path, png_path, data_path, vmin, vmax, cmap_name="RdYlBu_r", decim=2):
-    ds = gdal.Open(tif_path)
-    gt = ds.GetGeoTransform()
-    data = ds.GetRasterBand(1).ReadAsArray().astype(float)
-    xs, ys = ds.RasterXSize, ds.RasterYSize
+<div class="legend">
+  <div id="legend-title">Temperature (degC)</div>
+  <div class="legend-gradient"></div>
+  <div class="legend-labels">
+    <span id="legend-min">-5</span>
+    <span id="legend-max">20</span>
+  </div>
+</div>
 
-    lon_min = gt[0]
-    lon_max = gt[0] + xs * gt[1]
-    lat_max = gt[3]
-    lat_min = gt[3] + ys * gt[5]
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+const map = L.map('map').setView([44.6, 4.9], 9);
 
-    cmap = plt.get_cmap(cmap_name)
-    norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
-    rgba = cmap(norm(data))
-    rgba[np.isnan(data)] = [0, 0, 0, 0]
-    plt.imsave(png_path, rgba, origin="upper")
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 14,
+  attribution: '© OpenStreetMap'
+}).addTo(map);
 
-    # Decimation pour reduire la taille du fichier de donnees
-    # (on garde 1 pixel sur "decim" pour alleger le JSON)
-    data_decim = data[::decim, ::decim]
-    nrows_d, ncols_d = data_decim.shape
+let currentOverlay = null;
+let boundsData = {};
+let currentLayerId = 'tn_vercors';
+let currentGridData = null;
+const gridCache = {};
 
-    # Remplacer les NaN par null pour le JSON
-    data_list = []
-    for row in data_decim:
-        data_list.append([None if np.isnan(v) else round(float(v), 1) for v in row])
+const ranges = {
+  tn_vercors: [-5, 20],
+  tn_bagnols: [5, 25],
+  tx_bagnols: [20, 40]
+};
 
-    data_export = {
-        "lat_min": round(lat_min, 5),
-        "lat_max": round(lat_max, 5),
-        "lon_min": round(lon_min, 5),
-        "lon_max": round(lon_max, 5),
-        "nrows": nrows_d,
-        "ncols": ncols_d,
-        "values": data_list,
-    }
-    with open(data_path, "w", encoding="utf-8") as f:
-        json.dump(data_export, f)
+const tooltip = document.getElementById('tooltip');
 
-    return {
-        "lat_min": round(lat_min, 5),
-        "lat_max": round(lat_max, 5),
-        "lon_min": round(lon_min, 5),
-        "lon_max": round(lon_max, 5),
-    }
+fetch('bounds.json')
+  .then(r => r.json())
+  .then(data => {
+    boundsData = data;
+    showLayer('tn_vercors');
+  })
+  .catch(err => {
+    document.getElementById('date-info').textContent = 'Erreur de chargement des donnees';
+  });
 
-import datetime as dt
-today_str = dt.date.today().strftime("%Y%m%d")
+function showLayer(layerId) {
+  currentLayerId = layerId;
+  if (currentOverlay) {
+    map.removeLayer(currentOverlay);
+  }
+  const info = boundsData[layerId];
+  if (!info) {
+    document.getElementById('date-info').textContent = 'Donnee non disponible';
+    return;
+  }
+  const bounds = [[info.lat_min, info.lon_min], [info.lat_max, info.lon_max]];
+  currentOverlay = L.imageOverlay(layerId + '.png', bounds, { opacity: 0.75 }).addTo(map);
 
-LAYERS = [
-    {
-        "id": "tn_vercors",
-        "nom": "Tn Vercors",
-        "tif": f"C:/Users/cedfa/cartes_tn/tn_vercors_{today_str}.tif",
-        "vmin": -5, "vmax": 20,
-        "decim": 1,
-    },
-    {
-        "id": "tn_bagnols",
-        "nom": "Tn Bagnols",
-        "tif": f"C:/Users/cedfa/cartes_tn_bagnols/tn_bagnols_{today_str}.tif",
-        "vmin": 5, "vmax": 25,
-        "decim": 2,
-    },
-    {
-        "id": "tx_bagnols",
-        "nom": "Tx Bagnols",
-        "tif": f"C:/Users/cedfa/cartes_tx_bagnols/tx_bagnols_{today_str}.tif",
-        "vmin": 20, "vmax": 40,
-        "decim": 2,
-    },
-]
+  const dateStr = info.date.slice(6,8) + '/' + info.date.slice(4,6) + '/' + info.date.slice(0,4);
+  document.getElementById('date-info').textContent = info.nom + ' - ' + dateStr;
 
-bounds_all = {}
-for layer in LAYERS:
-    if os.path.exists(layer["tif"]):
-        png_path = os.path.join(OUTPUT_WEB_DIR, layer["id"] + ".png")
-        data_path = os.path.join(OUTPUT_WEB_DIR, layer["id"] + "_data.json")
-        bounds = tif_to_png_and_data(layer["tif"], png_path, data_path, layer["vmin"], layer["vmax"], decim=layer["decim"])
-        bounds_all[layer["id"]] = {**bounds, "nom": layer["nom"], "date": today_str}
-        print(f"OK: {layer['nom']} -> {png_path} + {data_path}")
-    else:
-        print(f"MANQUANT: {layer['tif']}")
+  const [vmin, vmax] = ranges[layerId];
+  document.getElementById('legend-min').textContent = vmin + ' degC';
+  document.getElementById('legend-max').textContent = vmax + ' degC';
 
-with open(os.path.join(OUTPUT_WEB_DIR, "bounds.json"), "w", encoding="utf-8") as f:
-    json.dump(bounds_all, f, indent=2)
+  if (layerId === 'tn_vercors') {
+    map.setView([45.0, 5.4], 10);
+  } else {
+    map.setView([44.25, 4.55], 10);
+  }
 
-print("\nFichiers prets dans:", OUTPUT_WEB_DIR)
-print("A uploader sur GitHub: les 3 PNG, les 3 _data.json, et bounds.json")
+  if (gridCache[layerId]) {
+    currentGridData = gridCache[layerId];
+  } else {
+    currentGridData = null;
+    fetch(layerId + '_data.json')
+      .then(r => r.json())
+      .then(d => {
+        gridCache[layerId] = d;
+        if (currentLayerId === layerId) currentGridData = d;
+      })
+      .catch(err => console.log('Pas de donnees survol pour', layerId));
+  }
+}
+
+document.querySelectorAll('input[name="layer"]').forEach(input => {
+  input.addEventListener('change', (e) => showLayer(e.target.value));
+});
+
+function getValueAt(lat, lon) {
+  if (!currentGridData) return null;
+  const d = currentGridData;
+  if (lat < d.lat_min || lat > d.lat_max || lon < d.lon_min || lon > d.lon_max) return null;
+
+  const row = Math.floor((d.lat_max - lat) / (d.lat_max - d.lat_min) * d.nrows);
+  const col = Math.floor((lon - d.lon_min) / (d.lon_max - d.lon_min) * d.ncols);
+
+  if (row < 0 || row >= d.nrows || col < 0 || col >= d.ncols) return null;
+  return d.values[row][col];
+}
+
+map.on('mousemove', function(e) {
+  const val = getValueAt(e.latlng.lat, e.latlng.lng);
+  if (val !== null && val !== undefined) {
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.originalEvent.pageX + 14) + 'px';
+    tooltip.style.top = (e.originalEvent.pageY + 10) + 'px';
+    tooltip.textContent = val.toFixed(1) + ' degC';
+  } else {
+    tooltip.style.display = 'none';
+  }
+});
+
+map.on('mouseout', function() {
+  tooltip.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
