@@ -89,7 +89,7 @@
     {
       "station": "Saint_Martin_Heres",
       "tn_arome": 24.6,
-      "tn_predite": NaN
+      "tn_predite": 21.4
     },
     {
       "station": "Col_Rousset",
@@ -102,5 +102,8 @@
       "tn_predite": 5.1
     }
   ],
-  "nuages": 0.6
+  "nuages": 0.5,
+  "indice_inversion": 6.6,
+  "tn_crete": 9.7,
+  "tn_taf_min": 3.1
 }
