@@ -1,5 +1,5 @@
 {
-  "date": "2026-07-09",
+  "date": "2026-07-10",
   "stations": [
     {
       "station": "Darbounouse",
@@ -14,17 +14,17 @@
     {
       "station": "Meaudre",
       "tn_arome": 17.4,
-      "tn_predite": 8.4
+      "tn_predite": 12.8
     },
     {
       "station": "Lans_en_Vercors",
       "tn_arome": 16.7,
-      "tn_predite": 7.9
+      "tn_predite": 13.5
     },
     {
       "station": "Engins",
       "tn_arome": 19.3,
-      "tn_predite": 16.7
+      "tn_predite": 17.9
     },
     {
       "station": "Rochechinard",
@@ -34,67 +34,67 @@
     {
       "station": "Peyrus",
       "tn_arome": 22.2,
-      "tn_predite": 20.8
+      "tn_predite": 21.0
     },
     {
       "station": "Saint_Julien_en_Quint",
       "tn_arome": 20.6,
-      "tn_predite": 14.8
+      "tn_predite": 15.0
     },
     {
       "station": "Marignac_en_Diois",
       "tn_arome": 22.4,
-      "tn_predite": 18.3
+      "tn_predite": 18.5
     },
     {
       "station": "Chatillon_Archiane",
       "tn_arome": 20.4,
-      "tn_predite": 14.9
+      "tn_predite": 15.4
     },
     {
       "station": "Chapelle_village",
       "tn_arome": 18.4,
-      "tn_predite": 13.1
+      "tn_predite": 13.4
     },
     {
       "station": "Col_Rousset",
       "tn_arome": 16.9,
-      "tn_predite": 12.3
+      "tn_predite": 12.5
     },
     {
       "station": "Chichilianne",
       "tn_arome": 18.1,
-      "tn_predite": 12.9
+      "tn_predite": 14.5
     },
     {
       "station": "Rochefort_Samson",
       "tn_arome": 21.4,
-      "tn_predite": 19.5
+      "tn_predite": 19.7
     },
     {
       "station": "Grenoble_CEA",
       "tn_arome": 25.5,
-      "tn_predite": 24.3
+      "tn_predite": 24.8
     },
     {
       "station": "Varces",
       "tn_arome": 21.8,
-      "tn_predite": 17.5
+      "tn_predite": 19.9
     },
     {
       "station": "Crete_Moucherolle",
       "tn_arome": 14.4,
-      "tn_predite": 9.7
+      "tn_predite": 14.6
     },
     {
       "station": "Saint_Martin_Heres",
       "tn_arome": 24.6,
-      "tn_predite": 21.4
+      "tn_predite": 22.9
     },
     {
       "station": "Col_Rousset",
       "tn_arome": 16.9,
-      "tn_predite": 12.3
+      "tn_predite": 12.5
     },
     {
       "station": "Chaud_Clapier",
@@ -103,7 +103,7 @@
     }
   ],
   "nuages": 0.5,
-  "indice_inversion": 6.6,
-  "tn_crete": 9.7,
+  "indice_inversion": 11.5,
+  "tn_crete": 14.6,
   "tn_taf_min": 3.1
 }
