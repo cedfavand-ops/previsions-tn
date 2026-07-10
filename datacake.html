@@ -7,50 +7,59 @@
 <title>Stations Datacake</title>
 
 <style>
-
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
     background:#eef2f7;
+    color:#222;
 }
 
 header{
     background:#1f4e79;
     color:white;
-    padding:20px;
     text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.2);
+    padding:25px;
 }
 
 header h1{
     margin:0;
 }
 
+header p{
+    margin-top:8px;
+    opacity:.9;
+}
+
 .container{
-    max-width:1700px;
+    max-width:1400px;
     margin:auto;
     padding:25px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(650px,1fr));
-    gap:25px;
-}
-
-.card{
+details{
     background:white;
+    margin-bottom:20px;
     border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
     overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,.12);
 }
 
-.card h2{
-    margin:0;
-    padding:15px;
+summary{
+    cursor:pointer;
+    padding:18px 20px;
+    font-size:22px;
+    font-weight:bold;
+    list-style:none;
     background:#2c6ca3;
     color:white;
-    font-size:22px;
+}
+
+summary::-webkit-details-marker{
+    display:none;
+}
+
+.frame{
+    padding:10px;
 }
 
 iframe{
@@ -59,38 +68,38 @@ iframe{
     border:none;
 }
 
+.button{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 18px;
+    background:white;
+    color:#1f4e79;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.button:hover{
+    background:#f0f0f0;
+}
+
 footer{
     text-align:center;
     padding:30px;
     color:#666;
 }
 
-a.button{
-    display:inline-block;
-    margin-top:15px;
-    padding:10px 18px;
-    background:#1f4e79;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-}
+@media(max-width:800px){
 
-a.button:hover{
-    background:#295f92;
-}
-
-@media(max-width:700px){
-
-.grid{
-grid-template-columns:1fr;
+summary{
+    font-size:18px;
 }
 
 iframe{
-height:600px;
+    height:600px;
 }
 
 }
-
 </style>
 
 </head>
@@ -101,49 +110,53 @@ height:600px;
 
 <h1>📡 Stations Datacake</h1>
 
-<a class="button" href="index.html">
-← Retour à l'accueil
-</a>
+<p>Suivi en temps réel des stations météo</p>
+
+<a class="button" href="index.html">← Retour à l'accueil</a>
 
 </header>
 
 <div class="container">
 
-<div class="grid">
-
-<div class="card">
-<h2>📍 Tignes</h2>
+<details open>
+<summary>📍 Tignes</summary>
+<div class="frame">
 <iframe src="https://app.datacake.de/pd/d75df345-b0f9-4da5-bed2-74153c0ffd15"></iframe>
 </div>
+</details>
 
-<div class="card">
-<h2>📍 Vallon d'Ane</h2>
+<details>
+<summary>📍 Vallon d'Ane</summary>
+<div class="frame">
 <iframe src="https://app.datacake.de/pd/49d8e76b-d3b1-4f96-9ce6-b6602bcf8036"></iframe>
 </div>
+</details>
 
-<div class="card">
-<h2>📍 Doline du Fraisse</h2>
+<details>
+<summary>📍 Doline du Fraisse</summary>
+<div class="frame">
 <iframe src="https://app.datacake.de/pd/6158e91a-e71b-4280-be9e-d6842768c467"></iframe>
 </div>
+</details>
 
-<div class="card">
-<h2>📍 Chaud Clapier</h2>
+<details>
+<summary>📍 Chaud Clapier</summary>
+<div class="frame">
 <iframe src="https://app.datacake.de/pd/d4b23fdc-eca0-4658-9d0b-66829a0b9890"></iframe>
 </div>
+</details>
 
-<div class="card">
-<h2>📍 Cumba Clava</h2>
+<details>
+<summary>📍 Beuil - Cumba Clava</summary>
+<div class="frame">
 <iframe src="https://app.datacake.de/pd/4141f1e8-3a9a-4503-a84d-eb6999f53171"></iframe>
 </div>
-
-</div>
+</details>
 
 </div>
 
 <footer>
-
-© 2026 - Prévisions TN / Datacake
-
+© 2026 - Prévisions TN
 </footer>
 
 </body>
