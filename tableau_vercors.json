@@ -4,31 +4,31 @@
     {
       "station": "Darbounouse",
       "tn_arome": 18.2,
-      "tn_predite": -0.3,
+      "tn_predite": -0.7,
       "tn_obs": 7.4
     },
     {
       "station": "Oscence",
       "tn_arome": 21.5,
-      "tn_predite": 6.4,
+      "tn_predite": 6.6,
       "tn_obs": 9.9
     },
     {
       "station": "Meaudre",
       "tn_arome": 19.7,
-      "tn_predite": 6.9,
+      "tn_predite": 7.6,
       "tn_obs": 13.3
     },
     {
       "station": "Lans_en_Vercors",
       "tn_arome": 18.7,
-      "tn_predite": 6.5,
+      "tn_predite": 6.7,
       "tn_obs": 12.5
     },
     {
       "station": "Engins",
       "tn_arome": 19.8,
-      "tn_predite": 16.5,
+      "tn_predite": 16.6,
       "tn_obs": 20.7
     },
     {
@@ -46,7 +46,7 @@
     {
       "station": "Saint_Julien_en_Quint",
       "tn_arome": 20.5,
-      "tn_predite": 15.4,
+      "tn_predite": 15.5,
       "tn_obs": 17.9
     },
     {
@@ -58,13 +58,13 @@
     {
       "station": "Chatillon_Archiane",
       "tn_arome": 20.0,
-      "tn_predite": 17.0,
+      "tn_predite": 17.1,
       "tn_obs": 16.1
     },
     {
       "station": "Chapelle_village",
       "tn_arome": 21.8,
-      "tn_predite": 14.0,
+      "tn_predite": 14.1,
       "tn_obs": 18.6
     },
     {
@@ -76,13 +76,13 @@
     {
       "station": "Chichilianne",
       "tn_arome": 19.4,
-      "tn_predite": 12.5,
+      "tn_predite": 12.8,
       "tn_obs": 16.4
     },
     {
       "station": "Rochefort_Samson",
       "tn_arome": 22.8,
-      "tn_predite": 20.5,
+      "tn_predite": 20.4,
       "tn_obs": 22.7
     },
     {
@@ -94,13 +94,13 @@
     {
       "station": "Varces",
       "tn_arome": 24.2,
-      "tn_predite": 19.3,
+      "tn_predite": 19.2,
       "tn_obs": 19.3
     },
     {
       "station": "Crete_Moucherolle",
       "tn_arome": 16.1,
-      "tn_predite": 9.8,
+      "tn_predite": 9.6,
       "tn_obs": 16.5
     },
     {
@@ -123,7 +123,7 @@
     }
   ],
   "nuages": 93.6,
-  "indice_inversion": 10.1,
-  "tn_crete": 9.8,
-  "tn_taf_min": -0.3
+  "indice_inversion": 10.3,
+  "tn_crete": 9.6,
+  "tn_taf_min": -0.7
 }
