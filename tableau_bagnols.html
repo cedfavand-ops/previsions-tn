@@ -9,63 +9,43 @@
   body { font-family: Arial, sans-serif; background: #1a1a2e; color: #eee; margin: 0; padding: 20px; }
   h1 { color: #00d4ff; text-align: center; font-size: 1.4em; margin-bottom: 5px; }
   .subtitle { text-align: center; color: #aaa; font-size: 0.9em; margin-bottom: 10px; }
-  .info-box { max-width: 700px; margin: 0 auto 15px auto; background: #16213e; border-radius: 8px; padding: 12px 16px; font-size: 0.9em; }
-  .nuages { color: #aaa; }
-  table { width: 100%; max-width: 700px; margin: 0 auto; border-collapse: collapse; }
-  th { background: #16213e; color: #00d4ff; padding: 10px; text-align: left; border-bottom: 2px solid #00d4ff; }
-  td { padding: 8px 10px; border-bottom: 1px solid #333; font-size: 0.95em; }
+  .info-box { max-width: 800px; margin: 0 auto 15px auto; background: #16213e; border-radius: 8px; padding: 12px 16px; font-size: 0.9em; }
+  table { width: 100%; max-width: 800px; margin: 0 auto; border-collapse: collapse; }
+  th { background: #16213e; color: #00d4ff; padding: 8px; text-align: left; border-bottom: 2px solid #00d4ff; font-size: 0.85em; }
+  td { padding: 7px 8px; border-bottom: 1px solid #333; }
   tr:hover { background: #16213e; }
-  .tn { font-weight: bold; font-size: 1.05em; text-align: center; }
-  .tx { font-weight: bold; font-size: 1.05em; text-align: center; }
-  .tres-froid { color: #aa00ff; }
-  .froid { color: #00aaff; }
-  .frais { color: #00ffaa; }
-  .doux { color: #ffaa00; }
-  .chaud { color: #ff6600; }
-  .tres-chaud { color: #ff0000; }
-  .canicule { color: #ff00aa; }
-  .arome { color: #888; font-size: 0.85em; text-align: center; }
-  .na { color: #555; text-align: center; }
+  .val { font-weight: bold; font-size: 1.0em; text-align: center; }
+  .obs { font-size: 0.95em; text-align: center; color: #ffdd44; }
+  .arome { color: #888; font-size: 0.82em; text-align: center; }
   .nav-bar { text-align: center; margin-top: 20px; }
   a.nav { color: #00d4ff; text-decoration: none; display: inline-block; margin: 10px 15px; }
   a.nav:hover { text-decoration: underline; }
-  .legende { text-align: center; margin-top: 12px; font-size: 0.78em; color: #888; }
+  .legende-dyn { text-align:center; margin-top:10px; font-size:0.8em; color:#aaa; }
 </style>
 </head>
 <body>
-<h1>Previsions Tn/Tx — Gard / Vallée du Rhône</h1>
+<h1>Prévisions Tn/Tx — Gard / Vallée du Rhône</h1>
 <div class="subtitle" id="date-titre">Chargement...</div>
-
-<div class="info-box">
-  <div class="nuages" id="nuages-info"></div>
-</div>
+<div class="info-box"><div id="nuages-info" style="color:#aaa"></div></div>
 
 <table>
   <thead>
     <tr>
       <th>Station</th>
-      <th style="text-align:center">Tn prévue</th>
+      <th style="text-align:center">Tn obs.</th>
+      <th style="text-align:center">Tn modèle</th>
       <th style="text-align:center">AROME Tn</th>
-      <th style="text-align:center">Tx prévue</th>
+      <th style="text-align:center">Tx obs.</th>
+      <th style="text-align:center">Tx modèle</th>
       <th style="text-align:center">AROME Tx</th>
     </tr>
   </thead>
   <tbody id="tableau-body">
-    <tr><td colspan="5" style="text-align:center">Chargement...</td></tr>
+    <tr><td colspan="7" style="text-align:center">Chargement...</td></tr>
   </tbody>
 </table>
 
-<div class="legende">
-  Tn : <span style="color:#aa00ff">■</span> &lt;0°C &nbsp;
-  <span style="color:#00aaff">■</span> 0-5°C &nbsp;
-  <span style="color:#00ffaa">■</span> 5-10°C &nbsp;
-  <span style="color:#ffaa00">■</span> 10-18°C &nbsp;
-  <span style="color:#ff6600">■</span> &gt;18°C &nbsp;&nbsp;|&nbsp;&nbsp;
-  Tx : <span style="color:#ffaa00">■</span> &lt;30°C &nbsp;
-  <span style="color:#ff6600">■</span> 30-35°C &nbsp;
-  <span style="color:#ff0000">■</span> 35-40°C &nbsp;
-  <span style="color:#ff00aa">■</span> &gt;40°C
-</div>
+<div class="legende-dyn" id="legende-dyn"></div>
 
 <div class="nav-bar">
   <a class="nav" href="index.html">← Carte interactive</a>
@@ -74,31 +54,25 @@
 </div>
 
 <script>
-function couleur_tn(tn) {
-  if (tn === null) return "";
-  if (tn < 0) return "tres-froid";
-  if (tn < 5) return "froid";
-  if (tn < 10) return "frais";
-  if (tn < 18) return "doux";
-  return "chaud";
+function tempToColor(t, tmin, tmax) {
+  const ratio = Math.max(0, Math.min(1, (t - tmin) / (tmax - tmin)));
+  const colors = [
+    [28,0,224],[0,112,255],[0,200,255],[0,255,208],[0,255,64],
+    [160,255,0],[255,255,0],[255,176,0],[255,80,0],[224,0,0],
+    [160,0,0],[192,0,128],[255,0,255]
+  ];
+  const idx = ratio * (colors.length - 1);
+  const i = Math.floor(idx);
+  const f = idx - i;
+  const c1 = colors[Math.min(i, colors.length-1)];
+  const c2 = colors[Math.min(i+1, colors.length-1)];
+  return `rgb(${Math.round(c1[0]+f*(c2[0]-c1[0]))},${Math.round(c1[1]+f*(c2[1]-c1[1]))},${Math.round(c1[2]+f*(c2[2]-c1[2]))})`;
 }
-function couleur_tx(tx) {
-  if (tx === null) return "";
-  if (tx < 30) return "doux";
-  if (tx < 35) return "chaud";
-  if (tx < 40) return "tres-chaud";
-  return "canicule";
-}
-
-let tnData = {}, txData = {};
 
 Promise.all([
   fetch("tableau_bagnols.json?t=" + Date.now()).then(r => r.json()),
   fetch("tableau_bagnols_tx.json?t=" + Date.now()).then(r => r.json()).catch(() => null)
 ]).then(([tn, tx]) => {
-  tnData = {};
-  txData = {};
-
   const d = new Date(tn.date);
   document.getElementById("date-titre").textContent =
     "Nuit du " + d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
@@ -111,42 +85,59 @@ Promise.all([
       "☁ Couverture nuageuse prévue : " + tn.nuages + "% — " + rad;
   }
 
-  for (const s of tn.stations) tnData[s.station] = s;
-  if (tx) for (const s of tx.stations) txData[s.station] = s;
+  const tnMap = {}, txMap = {};
+  for (const s of tn.stations) tnMap[s.station] = s;
+  if (tx) for (const s of tx.stations) txMap[s.station] = s;
 
   const allStations = [...new Set([
     ...tn.stations.map(s => s.station),
     ...(tx ? tx.stations.map(s => s.station) : [])
   ])];
 
-  // Trier par Tn croissante
+  // Palettes dynamiques separees Tn et Tx
+  const tn_vals = tn.stations.map(s => s.tn_predite).filter(v => v !== null);
+  const tx_vals = tx ? tx.stations.map(s => s.tx_predite).filter(v => v !== null) : [];
+  const tn_min = Math.floor(Math.min(...tn_vals)) - 1;
+  const tn_max = Math.ceil(Math.max(...tn_vals)) + 1;
+  const tx_min = tx_vals.length ? Math.floor(Math.min(...tx_vals)) - 1 : 20;
+  const tx_max = tx_vals.length ? Math.ceil(Math.max(...tx_vals)) + 1 : 45;
+
+  document.getElementById("legende-dyn").innerHTML =
+    `Tn : <span style="color:${tempToColor(tn_min,tn_min,tn_max)}">${tn_min}°C</span> → 
+     <span style="color:${tempToColor(tn_max,tn_min,tn_max)}">${tn_max}°C</span> &nbsp;|&nbsp;
+     Tx : <span style="color:${tempToColor(tx_min,tx_min,tx_max)}">${tx_min}°C</span> → 
+     <span style="color:${tempToColor(tx_max,tx_min,tx_max)}">${tx_max}°C</span>`;
+
   allStations.sort((a, b) => {
-    const ta = tnData[a]?.tn_predite ?? 99;
-    const tb = tnData[b]?.tn_predite ?? 99;
+    const ta = tnMap[a]?.tn_predite ?? 99;
+    const tb = tnMap[b]?.tn_predite ?? 99;
     return ta - tb;
   });
 
   const tbody = document.getElementById("tableau-body");
   tbody.innerHTML = "";
   for (const station of allStations) {
-    const tn_s = tnData[station];
-    const tx_s = txData[station];
+    const tn_s = tnMap[station];
+    const tx_s = txMap[station];
     const nom = station.replace(/_/g, " ");
     const tn_val = tn_s?.tn_predite ?? null;
     const tn_ar = tn_s?.tn_arome ?? null;
+    const tn_obs = tn_s?.tn_obs ?? null;
     const tx_val = tx_s?.tx_predite ?? null;
     const tx_ar = tx_s?.tx_arome ?? null;
+    const tx_obs = tx_s?.tx_obs ?? null;
+    const tn_color = tn_val !== null ? tempToColor(tn_val, tn_min, tn_max) : "#888";
+    const tx_color = tx_val !== null ? tempToColor(tx_val, tx_min, tx_max) : "#888";
     tbody.innerHTML += `<tr>
       <td>${nom}</td>
-      <td class="tn ${couleur_tn(tn_val)}">${tn_val !== null ? tn_val + "°C" : "—"}</td>
+      <td class="obs">${tn_obs !== null ? tn_obs + "°C" : "—"}</td>
+      <td class="val" style="color:${tn_color}">${tn_val !== null ? tn_val + "°C" : "—"}</td>
       <td class="arome">${tn_ar !== null ? tn_ar + "°C" : "—"}</td>
-      <td class="tx ${couleur_tx(tx_val)}">${tx_val !== null ? tx_val + "°C" : "—"}</td>
+      <td class="obs">${tx_obs !== null ? tx_obs + "°C" : "—"}</td>
+      <td class="val" style="color:${tx_color}">${tx_val !== null ? tx_val + "°C" : "—"}</td>
       <td class="arome">${tx_ar !== null ? tx_ar + "°C" : "—"}</td>
     </tr>`;
   }
-}).catch(err => {
-  document.getElementById("tableau-body").innerHTML =
-    "<tr><td colspan='5' style='text-align:center;color:#f44'>Données indisponibles</td></tr>";
 });
 </script>
 </body>
