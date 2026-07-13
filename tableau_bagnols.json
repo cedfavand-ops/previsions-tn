@@ -4,13 +4,13 @@
     {
       "station": "Lussan_La_Leque",
       "tn_arome": 20.4,
-      "tn_predite": 16.5,
+      "tn_predite": 16.7,
       "tn_obs": 16.9
     },
     {
       "station": "Verfeuil",
       "tn_arome": 23.2,
-      "tn_predite": 20.1,
+      "tn_predite": 20.2,
       "tn_obs": null
     },
     {
@@ -58,7 +58,7 @@
     {
       "station": "Orgnac_Aven",
       "tn_arome": 21.3,
-      "tn_predite": 20.6,
+      "tn_predite": 20.7,
       "tn_obs": null
     },
     {
@@ -70,7 +70,7 @@
     {
       "station": "Bollene",
       "tn_arome": 23.6,
-      "tn_predite": 22.1,
+      "tn_predite": 22.2,
       "tn_obs": 20.8
     },
     {
@@ -100,13 +100,13 @@
     {
       "station": "St_Hilaire_de_Brethmas",
       "tn_arome": 20.6,
-      "tn_predite": 19.4,
+      "tn_predite": 19.5,
       "tn_obs": 21.4
     },
     {
       "station": "La_Rouviere",
       "tn_arome": 21.3,
-      "tn_predite": 18.7,
+      "tn_predite": 18.8,
       "tn_obs": null
     },
     {
