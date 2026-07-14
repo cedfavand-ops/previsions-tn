@@ -4,31 +4,31 @@
     {
       "station": "Darbounouse",
       "tn_arome": 16.8,
-      "tn_predite": -0.4,
+      "tn_predite": -0.2,
       "tn_obs": 3.5
     },
     {
       "station": "Oscence",
       "tn_arome": 19.2,
-      "tn_predite": 5.4,
+      "tn_predite": 5.6,
       "tn_obs": 6.6
     },
     {
       "station": "Meaudre",
       "tn_arome": 17.9,
-      "tn_predite": 6.9,
+      "tn_predite": 7.0,
       "tn_obs": 10.9
     },
     {
       "station": "Lans_en_Vercors",
       "tn_arome": 16.8,
-      "tn_predite": 6.0,
+      "tn_predite": 6.1,
       "tn_obs": 10.3
     },
     {
       "station": "Engins",
       "tn_arome": 19.7,
-      "tn_predite": 16.4,
+      "tn_predite": 16.5,
       "tn_obs": 18.8
     },
     {
@@ -46,13 +46,13 @@
     {
       "station": "Saint_Julien_en_Quint",
       "tn_arome": 19.9,
-      "tn_predite": 14.9,
+      "tn_predite": 15.0,
       "tn_obs": 15.9
     },
     {
       "station": "Marignac_en_Diois",
       "tn_arome": 21.4,
-      "tn_predite": 19.1,
+      "tn_predite": 19.2,
       "tn_obs": 15.2
     },
     {
@@ -64,7 +64,7 @@
     {
       "station": "Chapelle_village",
       "tn_arome": 18.9,
-      "tn_predite": 12.1,
+      "tn_predite": 12.2,
       "tn_obs": 16.3
     },
     {
@@ -76,7 +76,7 @@
     {
       "station": "Chichilianne",
       "tn_arome": 17.7,
-      "tn_predite": 11.6,
+      "tn_predite": 11.7,
       "tn_obs": 13.7
     },
     {
@@ -123,7 +123,7 @@
     }
   ],
   "nuages": 37.4,
-  "indice_inversion": 9.6,
+  "indice_inversion": 9.4,
   "tn_crete": 9.2,
-  "tn_taf_min": -0.4
+  "tn_taf_min": -0.2
 }
