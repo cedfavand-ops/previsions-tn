@@ -74,8 +74,11 @@ Promise.all([
   fetch("tableau_bagnols_tx.json?t=" + Date.now()).then(r => r.json()).catch(() => null)
 ]).then(([tn, tx]) => {
   const d = new Date(tn.date);
+  const d2 = new Date(d); d2.setDate(d2.getDate() + 1);
   document.getElementById("date-titre").textContent =
-    "Nuit du " + d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+    "Tn nuit du " + d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long"}) +
+    " au " + d2.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long", year:"numeric"}) +
+    " — Tx du " + d2.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
 
   if (tn.nuages !== null && tn.nuages !== undefined) {
     const rad = tn.nuages < 5 ? "Nuit très radiative ★★★" :
