@@ -1,1 +1,10 @@
-{}
+{
+  "tn_bagnols": {
+    "lat_min": 43.6,
+    "lat_max": 44.6,
+    "lon_min": 3.9,
+    "lon_max": 5.1,
+    "nom": "Tn Bagnols",
+    "date": "20260715"
+  }
+}
