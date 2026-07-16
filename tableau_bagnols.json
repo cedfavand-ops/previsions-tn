@@ -89,7 +89,7 @@
       "station": "Bessas",
       "tn_arome": 21.5,
       "tn_predite": 20.6,
-      "tn_obs": 22.2
+      "tn_obs": 19.5
     },
     {
       "station": "Salindres",
@@ -107,7 +107,7 @@
       "station": "La_Rouviere",
       "tn_arome": 22.8,
       "tn_predite": 20.2,
-      "tn_obs": 18.4
+      "tn_obs": 25.5
     },
     {
       "station": "Nimes_Courbessac",
@@ -137,7 +137,7 @@
       "station": "Carpentras",
       "tn_arome": 23.2,
       "tn_predite": 21.2,
-      "tn_obs": null
+      "tn_obs": 19.9
     },
     {
       "station": "Montelimar",
