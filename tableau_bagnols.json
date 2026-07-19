@@ -17,7 +17,7 @@
       "station": "Uzes",
       "tn_arome": 25.7,
       "tn_predite": 22.6,
-      "tn_obs": null
+      "tn_obs": 18.2
     },
     {
       "station": "Pujaut",
@@ -95,7 +95,7 @@
       "station": "Salindres",
       "tn_arome": 24.2,
       "tn_predite": 21.9,
-      "tn_obs": 19.1
+      "tn_obs": 20.5
     },
     {
       "station": "St_Hilaire_de_Brethmas",
@@ -107,7 +107,7 @@
       "station": "La_Rouviere",
       "tn_arome": 25.0,
       "tn_predite": 22.2,
-      "tn_obs": null
+      "tn_obs": 18.9
     },
     {
       "station": "Nimes_Courbessac",
@@ -137,7 +137,7 @@
       "station": "Carpentras",
       "tn_arome": 21.8,
       "tn_predite": 20.0,
-      "tn_obs": 19.3
+      "tn_obs": 23.3
     },
     {
       "station": "Montelimar",
@@ -173,7 +173,7 @@
       "station": "Visan",
       "tn_arome": 24.0,
       "tn_predite": 21.8,
-      "tn_obs": null
+      "tn_obs": 23.7
     },
     {
       "station": "Gras",
