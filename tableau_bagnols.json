@@ -107,13 +107,13 @@
       "station": "La_Rouviere",
       "tn_arome": 24.4,
       "tn_predite": 23.0,
-      "tn_obs": null
+      "tn_obs": 17.8
     },
     {
       "station": "Nimes_Courbessac",
       "tn_arome": 25.5,
       "tn_predite": 25.3,
-      "tn_obs": null
+      "tn_obs": 24.0
     },
     {
       "station": "Nimes_Garons",
@@ -131,19 +131,19 @@
       "station": "Orange",
       "tn_arome": 23.9,
       "tn_predite": 23.5,
-      "tn_obs": null
+      "tn_obs": 21.9
     },
     {
       "station": "Carpentras",
       "tn_arome": 21.4,
       "tn_predite": 20.7,
-      "tn_obs": null
+      "tn_obs": 18.9
     },
     {
       "station": "Montelimar",
       "tn_arome": 23.6,
       "tn_predite": 22.8,
-      "tn_obs": null
+      "tn_obs": 21.2
     },
     {
       "station": "Montjoyer",
@@ -173,13 +173,13 @@
       "station": "Visan",
       "tn_arome": 22.6,
       "tn_predite": 21.6,
-      "tn_obs": null
+      "tn_obs": 21.3
     },
     {
       "station": "Gras",
       "tn_arome": 21.4,
       "tn_predite": 21.1,
-      "tn_obs": null
+      "tn_obs": 19.1
     }
   ],
   "nuages": 12.3
