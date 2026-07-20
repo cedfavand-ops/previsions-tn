@@ -9,87 +9,122 @@
   body { font-family: Arial, sans-serif; background: #1a1a2e; color: #eee; margin: 0; padding: 20px; }
   h1 { color: #00d4ff; text-align: center; font-size: 1.4em; margin-bottom: 5px; }
   .subtitle { text-align: center; color: #aaa; font-size: 0.9em; margin-bottom: 10px; }
-  .info-box { max-width: 700px; margin: 0 auto 15px auto; background: #16213e; border-radius: 8px; padding: 12px 16px; font-size: 0.9em; }
-  .nuages { color: #aaa; }
-  .inversion { color: #00d4ff; font-weight: bold; margin-top: 6px; }
-  .inversion-forte { color: #ff00ff; }
-  .inversion-tres-forte { color: #ff0066; }
-  table { width: 100%; max-width: 700px; margin: 0 auto; border-collapse: collapse; }
-  th { background: #16213e; color: #00d4ff; padding: 10px; text-align: left; border-bottom: 2px solid #00d4ff; font-size: 0.9em; }
-  td { padding: 8px 10px; border-bottom: 1px solid #333; }
+  .info-box { max-width: 650px; margin: 0 auto 15px auto; background: #16213e; border-radius: 8px; padding: 12px 16px; font-size: 0.9em; }
+  table { width: 100%; max-width: 650px; margin: 0 auto; border-collapse: collapse; }
+  th { background: #16213e; color: #00d4ff; padding: 10px; text-align: left; border-bottom: 2px solid #00d4ff; cursor: pointer; user-select: none; }
+  th:hover { background: #0f3460; }
+  th.sorted-asc::after { content: " ▲"; }
+  th.sorted-desc::after { content: " ▼"; }
+  td { padding: 9px 10px; border-bottom: 1px solid #333; }
   tr:hover { background: #16213e; }
   tr.reference { opacity: 0.6; font-style: italic; }
   .val { font-weight: bold; font-size: 1.05em; text-align: center; }
-  .obs { font-size: 0.95em; text-align: center; color: #ffdd44; }
-  .arome { color: #888; font-size: 0.85em; text-align: center; }
+  .arome { color: #888; font-size: 0.9em; text-align: center; }
   .badge-ref { font-size: 0.7em; color: #888; margin-left: 5px; }
+  .inversion { color: #00d4ff; font-weight: bold; margin-top: 6px; }
   .nav-bar { text-align: center; margin-top: 20px; }
   a.nav { color: #00d4ff; text-decoration: none; display: inline-block; margin: 10px 15px; }
   a.nav:hover { text-decoration: underline; }
-  .legende-dyn { text-align:center; margin-top:10px; font-size:0.8em; color:#aaa; }
+  .legende-dyn { text-align:center; margin-top:8px; font-size:0.78em; color:#888; }
 </style>
 </head>
 <body>
-<h1>Previsions Tn — Massif du Vercors</h1>
+<h1>Prévisions Tn — Massif du Vercors</h1>
 <div class="subtitle" id="date-titre">Chargement...</div>
-
 <div class="info-box">
-  <div class="nuages" id="nuages-info"></div>
+  <div id="nuages-info" style="color:#aaa"></div>
   <div class="inversion" id="inversion-info"></div>
 </div>
 
-<table>
+<table id="main-table">
   <thead>
     <tr>
-      <th>Station</th>
-      <th style="text-align:center">Tn observée</th>
-      <th style="text-align:center">Tn modèle</th>
-      <th style="text-align:center">AROME brut</th>
+      <th onclick="sortTable(0)" id="th-station">Station</th>
+      <th onclick="sortTable(1)" id="th-modele">Tn modèle</th>
+      <th onclick="sortTable(2)" id="th-arome">AROME HD</th>
     </tr>
   </thead>
   <tbody id="tableau-body">
-    <tr><td colspan="4" style="text-align:center">Chargement...</td></tr>
+    <tr><td colspan="3" style="text-align:center">Chargement...</td></tr>
   </tbody>
 </table>
-
 <div class="legende-dyn" id="legende-dyn"></div>
 
 <div class="nav-bar">
   <a class="nav" href="index.html">← Carte interactive</a>
   <a class="nav" href="tableau_bagnols.html">Tableau Bagnols</a>
-  <a class="nav" href="stations.html">Stations temps réel →</a>
+  <a class="nav" href="stations.html">Stations →</a>
 </div>
 
 <script>
-const STATIONS_REFERENCE = ["Crete_Moucherolle","Grenoble_CEA","Saint_Martin_Heres","Rochefort_Samson","Varces"];
+const STATIONS_REF = new Set(["Crete_Moucherolle","Grenoble_CEA","Saint_Martin_Heres","Rochefort_Samson","Varces","Chichilianne"]);
+let tableData = [];
+let sortCol = 1, sortDir = 1;
 
 function tempToColor(t, tmin, tmax) {
-  const ratio = Math.max(0, Math.min(1, (t - tmin) / (tmax - tmin)));
-  // Palette bleu->cyan->vert->jaune->orange->rouge->magenta
-  const colors = [
-    [28, 0, 224], [0, 112, 255], [0, 200, 255], [0, 255, 208],
-    [0, 255, 64], [160, 255, 0], [255, 255, 0], [255, 176, 0],
-    [255, 80, 0], [224, 0, 0], [160, 0, 0], [192, 0, 128], [255, 0, 255]
-  ];
-  const idx = ratio * (colors.length - 1);
-  const i = Math.floor(idx);
-  const f = idx - i;
-  const c1 = colors[Math.min(i, colors.length-1)];
-  const c2 = colors[Math.min(i+1, colors.length-1)];
-  const r = Math.round(c1[0] + f*(c2[0]-c1[0]));
-  const g = Math.round(c1[1] + f*(c2[1]-c1[1]));
-  const b = Math.round(c1[2] + f*(c2[2]-c1[2]));
-  return `rgb(${r},${g},${b})`;
+  const r = Math.max(0, Math.min(1, (t - tmin) / (tmax - tmin)));
+  const colors = [[28,0,224],[0,112,255],[0,200,255],[0,255,208],[0,255,64],
+    [160,255,0],[255,255,0],[255,176,0],[255,80,0],[224,0,0],[160,0,0],[192,0,128],[255,0,255]];
+  const idx = r * (colors.length - 1);
+  const i = Math.floor(idx), f = idx - i;
+  const c1 = colors[Math.min(i, colors.length-1)], c2 = colors[Math.min(i+1, colors.length-1)];
+  return `rgb(${Math.round(c1[0]+f*(c2[0]-c1[0]))},${Math.round(c1[1]+f*(c2[1]-c1[1]))},${Math.round(c1[2]+f*(c2[2]-c1[2]))})`;
+}
+
+function sortTable(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = 1; }
+  document.querySelectorAll("th").forEach(th => th.classList.remove("sorted-asc","sorted-desc"));
+  const th = document.querySelectorAll("th")[col];
+  th.classList.add(sortDir === 1 ? "sorted-asc" : "sorted-desc");
+  renderTable();
+}
+
+function renderTable() {
+  const vals = tableData.map(s => s.tn_predite).filter(v => v !== null);
+  const tmin = Math.floor(Math.min(...vals)) - 1;
+  const tmax = Math.ceil(Math.max(...vals)) + 1;
+
+  document.getElementById("legende-dyn").innerHTML =
+    `Palette : <span style="color:${tempToColor(tmin,tmin,tmax)}">${tmin}°C</span> → 
+     <span style="color:${tempToColor(tmax,tmin,tmax)}">${tmax}°C</span>`;
+
+  const sorted = [...tableData].sort((a, b) => {
+    let va, vb;
+    if (sortCol === 0) { va = a.station; vb = b.station; return sortDir * va.localeCompare(vb); }
+    if (sortCol === 1) { va = a.tn_predite ?? 999; vb = b.tn_predite ?? 999; }
+    if (sortCol === 2) { va = a.tn_arome ?? 999; vb = b.tn_arome ?? 999; }
+    return sortDir * (va - vb);
+  });
+
+  const tbody = document.getElementById("tableau-body");
+  tbody.innerHTML = "";
+  for (const s of sorted) {
+    const isRef = STATIONS_REF.has(s.station);
+    const nom = s.station.replace(/_/g, " ");
+    const badge = isRef ? '<span class="badge-ref">(réf.)</span>' : "";
+    const color = s.tn_predite !== null ? tempToColor(s.tn_predite, tmin, tmax) : "#888";
+    tbody.innerHTML += `<tr class="${isRef ? "reference" : ""}">
+      <td>${nom}${badge}</td>
+      <td class="val" style="color:${color}">${s.tn_predite !== null ? s.tn_predite + "°C" : "—"}</td>
+      <td class="arome">${s.tn_arome !== null ? s.tn_arome + "°C" : "—"}</td>
+    </tr>`;
+  }
 }
 
 fetch("tableau_vercors.json?t=" + Date.now())
   .then(r => r.json())
   .then(data => {
-    const d = new Date(data.date);
-    const d2 = new Date(d); d2.setDate(d2.getDate() + 1);
-    document.getElementById("date-titre").textContent =
-      "Tn — Nuit du " + d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long"}) +
-      " au " + d2.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+    const dateStr = data.date_prevision;
+    if (dateStr) {
+      const parts = dateStr.split("-");
+      const d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      const d2 = new Date(d); d2.setDate(d2.getDate() + 1);
+      const opts = {weekday:"long", day:"numeric", month:"long"};
+      document.getElementById("date-titre").textContent =
+        "Nuit du " + d.toLocaleDateString("fr-FR", opts) +
+        " au " + d2.toLocaleDateString("fr-FR", {...opts, year:"numeric"});
+    }
 
     if (data.nuages !== null && data.nuages !== undefined) {
       const rad = data.nuages < 5 ? "Nuit très radiative ★★★" :
@@ -102,45 +137,19 @@ fetch("tableau_vercors.json?t=" + Date.now())
     if (data.indice_inversion !== null && data.indice_inversion !== undefined) {
       const inv = data.indice_inversion;
       const stars = inv > 12 ? "★★★★ Inversion exceptionnelle" :
-                    inv > 8  ? "★★★ Inversion forte" :
-                    inv > 5  ? "★★ Inversion modérée" :
-                    inv > 2  ? "★ Inversion faible" : "Pas d'inversion marquée";
-      const cl = inv > 12 ? "inversion-tres-forte" : inv > 8 ? "inversion-forte" : "";
+                    inv > 8 ? "★★★ Inversion forte" :
+                    inv > 5 ? "★★ Inversion modérée" :
+                    inv > 2 ? "★ Inversion faible" : "Pas d'inversion marquée";
       document.getElementById("inversion-info").innerHTML =
-        `<span class="${cl}">⬆ Indice d'inversion : +${inv}°C (Crête ${data.tn_crete}°C / TAF min ${data.tn_taf_min}°C) — ${stars}</span>`;
+        `⬆ Indice d'inversion : +${inv}°C — ${stars}`;
     }
 
-    // Calcul min/max dynamique sur tn_predite
-    const vals = data.stations.map(s => s.tn_predite).filter(v => v !== null);
-    const tmin = Math.floor(Math.min(...vals)) - 1;
-    const tmax = Math.ceil(Math.max(...vals)) + 1;
-
-    document.getElementById("legende-dyn").innerHTML =
-      `Palette dynamique : <span style="color:${tempToColor(tmin,tmin,tmax)}">${tmin}°C</span> → 
-       <span style="color:${tempToColor((tmin+tmax)/2,tmin,tmax)}">${Math.round((tmin+tmax)/2)}°C</span> → 
-       <span style="color:${tempToColor(tmax,tmin,tmax)}">${tmax}°C</span>`;
-
-    const taf = data.stations.filter(s => !STATIONS_REFERENCE.includes(s.station));
-    const ref = data.stations.filter(s => STATIONS_REFERENCE.includes(s.station));
-    const sorted = [...taf.sort((a,b) => a.tn_predite - b.tn_predite),
-                    ...ref.sort((a,b) => a.tn_predite - b.tn_predite)];
-
-    const tbody = document.getElementById("tableau-body");
-    tbody.innerHTML = "";
-    for (const s of sorted) {
-      const isRef = STATIONS_REFERENCE.includes(s.station);
-      const nom = s.station.replace(/_/g, " ");
-      const badge = isRef ? '<span class="badge-ref">(réf.)</span>' : "";
-      const color = tempToColor(s.tn_predite, tmin, tmax);
-      const obs_str = s.tn_obs !== null && s.tn_obs !== undefined
-        ? `<span style="color:#ffdd44">${s.tn_obs}°C</span>` : `<span style="color:#555">—</span>`;
-      tbody.innerHTML += `<tr class="${isRef ? "reference" : ""}">
-        <td>${nom}${badge}</td>
-        <td class="obs">${obs_str}</td>
-        <td class="val" style="color:${color}">${s.tn_predite !== null ? s.tn_predite + "°C" : "—"}</td>
-        <td class="arome">${s.tn_arome}°C</td>
-      </tr>`;
-    }
+    tableData = data.stations;
+    renderTable();
+  })
+  .catch(() => {
+    document.getElementById("tableau-body").innerHTML =
+      "<tr><td colspan='3' style='text-align:center;color:#f44'>Données indisponibles</td></tr>";
   });
 </script>
 </body>
