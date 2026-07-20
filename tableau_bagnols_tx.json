@@ -17,7 +17,7 @@
       "station": "Uzes",
       "tx_arome": 36.6,
       "tx_predite": 35.8,
-      "tx_obs": 24.2
+      "tx_obs": 35.5
     },
     {
       "station": "Pujaut",
@@ -107,7 +107,7 @@
       "station": "La_Rouviere",
       "tx_arome": 37.6,
       "tx_predite": 36.5,
-      "tx_obs": null
+      "tx_obs": 36.3
     },
     {
       "station": "Nimes_Courbessac",
@@ -173,7 +173,7 @@
       "station": "Visan",
       "tx_arome": 35.1,
       "tx_predite": 30.8,
-      "tx_obs": null
+      "tx_obs": 28.8
     },
     {
       "station": "Gras",
