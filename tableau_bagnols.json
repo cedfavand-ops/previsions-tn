@@ -95,7 +95,7 @@
       "station": "Salindres",
       "tn_arome": 23.1,
       "tn_predite": 21.4,
-      "tn_obs": 19.5
+      "tn_obs": 19.7
     },
     {
       "station": "St_Hilaire_de_Brethmas",
@@ -125,25 +125,25 @@
       "station": "Avignon",
       "tn_arome": 23.5,
       "tn_predite": 22.4,
-      "tn_obs": 32.9
+      "tn_obs": 22.2
     },
     {
       "station": "Orange",
       "tn_arome": 21.0,
       "tn_predite": 20.0,
-      "tn_obs": null
+      "tn_obs": 21.7
     },
     {
       "station": "Carpentras",
       "tn_arome": 20.2,
       "tn_predite": 19.6,
-      "tn_obs": null
+      "tn_obs": 18.6
     },
     {
       "station": "Montelimar",
       "tn_arome": 22.3,
       "tn_predite": 22.1,
-      "tn_obs": 20.3
+      "tn_obs": 26.3
     },
     {
       "station": "Montjoyer",
