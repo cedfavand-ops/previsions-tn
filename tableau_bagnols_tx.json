@@ -17,7 +17,7 @@
       "station": "Uzes",
       "tx_arome": 35.4,
       "tx_predite": 34.9,
-      "tx_obs": 34.7
+      "tx_obs": 29.8
     },
     {
       "station": "Pujaut",
@@ -89,7 +89,7 @@
       "station": "Bessas",
       "tx_arome": 33.2,
       "tx_predite": 33.4,
-      "tx_obs": null
+      "tx_obs": 32.1
     },
     {
       "station": "Salindres",
@@ -137,13 +137,13 @@
       "station": "Carpentras",
       "tx_arome": 34.0,
       "tx_predite": 32.4,
-      "tx_obs": null
+      "tx_obs": 33.7
     },
     {
       "station": "Montelimar",
       "tx_arome": 31.8,
       "tx_predite": 32.7,
-      "tx_obs": null
+      "tx_obs": 28.8
     },
     {
       "station": "Montjoyer",
