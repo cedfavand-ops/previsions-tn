@@ -5,7 +5,7 @@
       "station": "Lussan_La_Leque",
       "tn_arome": 20.9,
       "tn_predite": 15.7,
-      "tn_obs": null
+      "tn_obs": 14.0
     },
     {
       "station": "Verfeuil",
@@ -17,7 +17,7 @@
       "station": "Uzes",
       "tn_arome": 23.3,
       "tn_predite": 22.1,
-      "tn_obs": null
+      "tn_obs": 19.1
     },
     {
       "station": "Pujaut",
@@ -41,7 +41,7 @@
       "station": "Montaren",
       "tn_arome": 23.0,
       "tn_predite": 22.6,
-      "tn_obs": null
+      "tn_obs": 21.0
     },
     {
       "station": "Cavillargues",
@@ -89,13 +89,13 @@
       "station": "Bessas",
       "tn_arome": 20.4,
       "tn_predite": 19.7,
-      "tn_obs": null
+      "tn_obs": 19.3
     },
     {
       "station": "Salindres",
       "tn_arome": 20.6,
       "tn_predite": 19.4,
-      "tn_obs": 16.3
+      "tn_obs": 14.3
     },
     {
       "station": "St_Hilaire_de_Brethmas",
@@ -107,7 +107,7 @@
       "station": "La_Rouviere",
       "tn_arome": 22.4,
       "tn_predite": 21.2,
-      "tn_obs": null
+      "tn_obs": 17.2
     },
     {
       "station": "Nimes_Courbessac",
@@ -143,7 +143,7 @@
       "station": "Montelimar",
       "tn_arome": 21.5,
       "tn_predite": 21.3,
-      "tn_obs": 20.3
+      "tn_obs": 19.8
     },
     {
       "station": "Montjoyer",
