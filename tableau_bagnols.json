@@ -131,7 +131,7 @@
       "station": "Orange",
       "tn_arome": 22.3,
       "tn_predite": 21.3,
-      "tn_obs": null
+      "tn_obs": 21.3
     },
     {
       "station": "Carpentras",
@@ -173,7 +173,7 @@
       "station": "Visan",
       "tn_arome": 21.4,
       "tn_predite": 20.5,
-      "tn_obs": 20.4
+      "tn_obs": 25.5
     },
     {
       "station": "Gras",
