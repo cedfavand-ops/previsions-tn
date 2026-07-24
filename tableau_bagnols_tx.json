@@ -95,7 +95,7 @@
       "station": "Salindres",
       "tx_arome": 35.9,
       "tx_predite": 34.8,
-      "tx_obs": 37.3
+      "tx_obs": 34.2
     },
     {
       "station": "St_Hilaire_de_Brethmas",
@@ -113,7 +113,7 @@
       "station": "Nimes_Courbessac",
       "tx_arome": 35.4,
       "tx_predite": 33.6,
-      "tx_obs": null
+      "tx_obs": 36.0
     },
     {
       "station": "Nimes_Garons",
@@ -179,7 +179,7 @@
       "station": "Gras",
       "tx_arome": 33.1,
       "tx_predite": 31.2,
-      "tx_obs": null
+      "tx_obs": 32.8
     }
   ]
 }
