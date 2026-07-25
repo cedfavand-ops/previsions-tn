@@ -173,13 +173,13 @@
       "station": "Visan",
       "tx_arome": 31.9,
       "tx_predite": 32.1,
-      "tx_obs": 24.9
+      "tx_obs": 32.0
     },
     {
       "station": "Gras",
       "tx_arome": 30.7,
       "tx_predite": 32.1,
-      "tx_obs": null
+      "tx_obs": 27.9
     }
   ]
 }
