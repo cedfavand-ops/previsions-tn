@@ -1,186 +1,186 @@
 {
-  "date": "2026-07-26",
+  "date": "2026-07-27",
   "stations": [
     {
       "station": "Lussan_La_Leque",
-      "tn_arome": 18.5,
-      "tn_predite": 15.4,
-      "tn_obs": 16.4
+      "tn_arome": 19.5,
+      "tn_predite": 16.3,
+      "tn_obs": 17.2
     },
     {
       "station": "Verfeuil",
-      "tn_arome": 20.8,
-      "tn_predite": 18.4,
+      "tn_arome": 20.2,
+      "tn_predite": 18.0,
       "tn_obs": null
     },
     {
       "station": "Uzes",
-      "tn_arome": 19.8,
-      "tn_predite": 19.4,
-      "tn_obs": null
+      "tn_arome": 21.2,
+      "tn_predite": 20.8,
+      "tn_obs": 15.5
     },
     {
       "station": "Pujaut",
-      "tn_arome": 20.3,
-      "tn_predite": 18.9,
-      "tn_obs": 17.2
+      "tn_arome": 21.0,
+      "tn_predite": 19.9,
+      "tn_obs": 20.7
     },
     {
       "station": "Saint_Paul_les_Fonts",
-      "tn_arome": 19.6,
-      "tn_predite": 19.3,
-      "tn_obs": 18.3
+      "tn_arome": 19.9,
+      "tn_predite": 19.8,
+      "tn_obs": 19.4
     },
     {
       "station": "Saint_Pons_la_Calm",
-      "tn_arome": 18.9,
-      "tn_predite": 18.9,
-      "tn_obs": 17.3
-    },
-    {
-      "station": "Montaren",
-      "tn_arome": 18.3,
-      "tn_predite": 18.3,
-      "tn_obs": 17.9
-    },
-    {
-      "station": "Cavillargues",
-      "tn_arome": 20.0,
-      "tn_predite": 19.1,
-      "tn_obs": 17.5
-    },
-    {
-      "station": "Mejannes_le_Clap",
-      "tn_arome": 18.2,
-      "tn_predite": 16.8,
-      "tn_obs": 16.7
-    },
-    {
-      "station": "Orgnac_Aven",
-      "tn_arome": 18.2,
-      "tn_predite": 17.8,
-      "tn_obs": 18.0
-    },
-    {
-      "station": "Pont_St_Esprit",
-      "tn_arome": 20.0,
-      "tn_predite": 20.0,
-      "tn_obs": 18.1
-    },
-    {
-      "station": "Bollene",
-      "tn_arome": 19.3,
-      "tn_predite": 18.6,
-      "tn_obs": 18.0
-    },
-    {
-      "station": "Lapalud",
-      "tn_arome": 19.4,
-      "tn_predite": 19.0,
-      "tn_obs": 18.1
-    },
-    {
-      "station": "Donzere",
-      "tn_arome": 19.3,
-      "tn_predite": 19.3,
-      "tn_obs": 18.5
-    },
-    {
-      "station": "Bessas",
-      "tn_arome": 18.2,
-      "tn_predite": 17.6,
+      "tn_arome": 20.2,
+      "tn_predite": 20.2,
       "tn_obs": 19.6
     },
     {
+      "station": "Montaren",
+      "tn_arome": 22.1,
+      "tn_predite": 21.7,
+      "tn_obs": 20.2
+    },
+    {
+      "station": "Cavillargues",
+      "tn_arome": 20.3,
+      "tn_predite": 19.5,
+      "tn_obs": 17.7
+    },
+    {
+      "station": "Mejannes_le_Clap",
+      "tn_arome": 19.4,
+      "tn_predite": 18.0,
+      "tn_obs": 18.3
+    },
+    {
+      "station": "Orgnac_Aven",
+      "tn_arome": 19.6,
+      "tn_predite": 19.2,
+      "tn_obs": 18.8
+    },
+    {
+      "station": "Pont_St_Esprit",
+      "tn_arome": 20.4,
+      "tn_predite": 20.3,
+      "tn_obs": 19.5
+    },
+    {
+      "station": "Bollene",
+      "tn_arome": 21.7,
+      "tn_predite": 21.0,
+      "tn_obs": 20.2
+    },
+    {
+      "station": "Lapalud",
+      "tn_arome": 19.8,
+      "tn_predite": 19.5,
+      "tn_obs": 17.5
+    },
+    {
+      "station": "Donzere",
+      "tn_arome": 21.3,
+      "tn_predite": 21.3,
+      "tn_obs": 19.1
+    },
+    {
+      "station": "Bessas",
+      "tn_arome": 19.4,
+      "tn_predite": 18.8,
+      "tn_obs": 19.1
+    },
+    {
       "station": "Salindres",
-      "tn_arome": 18.1,
-      "tn_predite": 17.1,
-      "tn_obs": 17.3
+      "tn_arome": 20.1,
+      "tn_predite": 19.0,
+      "tn_obs": 16.7
     },
     {
       "station": "St_Hilaire_de_Brethmas",
-      "tn_arome": 19.9,
-      "tn_predite": 19.4,
-      "tn_obs": 17.9
+      "tn_arome": 19.1,
+      "tn_predite": 18.5,
+      "tn_obs": 20.5
     },
     {
       "station": "La_Rouviere",
-      "tn_arome": 21.0,
-      "tn_predite": 19.9,
-      "tn_obs": null
+      "tn_arome": 20.4,
+      "tn_predite": 19.5,
+      "tn_obs": 19.0
     },
     {
       "station": "Nimes_Courbessac",
       "tn_arome": 21.3,
-      "tn_predite": 21.3,
-      "tn_obs": 18.6
+      "tn_predite": 21.2,
+      "tn_obs": 21.0
     },
     {
       "station": "Nimes_Garons",
-      "tn_arome": 20.8,
-      "tn_predite": 20.7,
-      "tn_obs": 17.4
+      "tn_arome": 20.9,
+      "tn_predite": 20.8,
+      "tn_obs": 25.3
     },
     {
       "station": "Avignon",
-      "tn_arome": 18.6,
-      "tn_predite": 16.7,
-      "tn_obs": 18.6
+      "tn_arome": 21.6,
+      "tn_predite": 20.2,
+      "tn_obs": 21.5
     },
     {
       "station": "Orange",
-      "tn_arome": 18.9,
-      "tn_predite": 17.2,
-      "tn_obs": 18.6
+      "tn_arome": 22.5,
+      "tn_predite": 21.3,
+      "tn_obs": 20.0
     },
     {
       "station": "Carpentras",
-      "tn_arome": 18.7,
-      "tn_predite": 17.5,
-      "tn_obs": 18.6
+      "tn_arome": 21.7,
+      "tn_predite": 20.7,
+      "tn_obs": 22.8
     },
     {
       "station": "Montelimar",
-      "tn_arome": 19.8,
-      "tn_predite": 19.6,
-      "tn_obs": 19.0
+      "tn_arome": 22.4,
+      "tn_predite": 22.2,
+      "tn_obs": 20.2
     },
     {
       "station": "Montjoyer",
-      "tn_arome": 17.5,
-      "tn_predite": 17.6,
-      "tn_obs": 17.0
+      "tn_arome": 17.8,
+      "tn_predite": 17.9,
+      "tn_obs": 18.3
     },
     {
       "station": "Viviers",
-      "tn_arome": 19.4,
-      "tn_predite": 19.2,
-      "tn_obs": 18.1
+      "tn_arome": 21.2,
+      "tn_predite": 21.0,
+      "tn_obs": 16.2
     },
     {
       "station": "Dent_de_Rez",
-      "tn_arome": 16.2,
-      "tn_predite": 15.9,
-      "tn_obs": 14.1
+      "tn_arome": 17.4,
+      "tn_predite": 17.1,
+      "tn_obs": 16.5
     },
     {
       "station": "Sorgues",
-      "tn_arome": 20.0,
-      "tn_predite": 19.4,
-      "tn_obs": 19.2
+      "tn_arome": 22.4,
+      "tn_predite": 22.0,
+      "tn_obs": 21.4
     },
     {
       "station": "Visan",
-      "tn_arome": 19.1,
-      "tn_predite": 17.9,
-      "tn_obs": 18.5
+      "tn_arome": 20.6,
+      "tn_predite": 19.6,
+      "tn_obs": 20.5
     },
     {
       "station": "Gras",
-      "tn_arome": 17.9,
-      "tn_predite": 17.6,
-      "tn_obs": 16.4
+      "tn_arome": 18.3,
+      "tn_predite": 18.0,
+      "tn_obs": 18.4
     }
   ],
-  "nuages": 83.1
+  "nuages": 2.9
 }
