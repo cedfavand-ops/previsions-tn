@@ -89,7 +89,7 @@
       "station": "Bessas",
       "tx_arome": 30.7,
       "tx_predite": 31.3,
-      "tx_obs": null
+      "tx_obs": 35.4
     },
     {
       "station": "Salindres",
@@ -137,13 +137,13 @@
       "station": "Carpentras",
       "tx_arome": 30.9,
       "tx_predite": 29.8,
-      "tx_obs": 28.1
+      "tx_obs": 34.6
     },
     {
       "station": "Montelimar",
       "tx_arome": 32.4,
       "tx_predite": 33.4,
-      "tx_obs": null
+      "tx_obs": 35.6
     },
     {
       "station": "Montjoyer",
@@ -179,7 +179,7 @@
       "station": "Gras",
       "tx_arome": 30.2,
       "tx_predite": 31.4,
-      "tx_obs": 33.7
+      "tx_obs": 22.6
     }
   ]
 }
