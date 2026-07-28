@@ -95,7 +95,7 @@
       "station": "Salindres",
       "tn_arome": 19.3,
       "tn_predite": 16.6,
-      "tn_obs": 17.1
+      "tn_obs": 20.0
     },
     {
       "station": "St_Hilaire_de_Brethmas",
@@ -107,19 +107,19 @@
       "station": "La_Rouviere",
       "tn_arome": 20.1,
       "tn_predite": 17.4,
-      "tn_obs": 16.5
+      "tn_obs": 18.1
     },
     {
       "station": "Nimes_Courbessac",
       "tn_arome": 23.2,
       "tn_predite": 23.1,
-      "tn_obs": null
+      "tn_obs": 22.8
     },
     {
       "station": "Nimes_Garons",
       "tn_arome": 22.8,
       "tn_predite": 22.6,
-      "tn_obs": 22.6
+      "tn_obs": 21.4
     },
     {
       "station": "Avignon",
@@ -179,7 +179,7 @@
       "station": "Gras",
       "tn_arome": 19.1,
       "tn_predite": 18.8,
-      "tn_obs": 23.9
+      "tn_obs": 19.5
     }
   ],
   "nuages": 0.0
