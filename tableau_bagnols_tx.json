@@ -17,7 +17,7 @@
       "station": "Uzes",
       "tx_arome": 34.3,
       "tx_predite": 36.7,
-      "tx_obs": 35.9
+      "tx_obs": 32.1
     },
     {
       "station": "Pujaut",
@@ -107,19 +107,19 @@
       "station": "La_Rouviere",
       "tx_arome": 34.8,
       "tx_predite": 37.4,
-      "tx_obs": 37.6
+      "tx_obs": 36.8
     },
     {
       "station": "Nimes_Courbessac",
       "tx_arome": 34.8,
       "tx_predite": 37.9,
-      "tx_obs": 35.2
+      "tx_obs": 38.1
     },
     {
       "station": "Nimes_Garons",
       "tx_arome": 34.8,
       "tx_predite": 37.8,
-      "tx_obs": null
+      "tx_obs": 36.9
     },
     {
       "station": "Avignon",
@@ -143,7 +143,7 @@
       "station": "Montelimar",
       "tx_arome": 32.4,
       "tx_predite": 36.1,
-      "tx_obs": 32.3
+      "tx_obs": 30.4
     },
     {
       "station": "Montjoyer",
