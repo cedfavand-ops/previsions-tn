@@ -3,19 +3,19 @@
   "stations": [
     {
       "station": "Darbounouse",
-      "tn_predite": 4.7,
+      "tn_predite": 5.1,
       "tn_arome": 17.1,
       "reference": false
     },
     {
       "station": "Oscence",
-      "tn_predite": 9.5,
+      "tn_predite": 10.1,
       "tn_arome": 19.1,
       "reference": false
     },
     {
       "station": "Chaud_Clapier",
-      "tn_predite": 9.4,
+      "tn_predite": 7.9,
       "tn_arome": 17.1,
       "reference": false
     },
@@ -27,7 +27,7 @@
     },
     {
       "station": "Lans_en_Vercors",
-      "tn_predite": 10.4,
+      "tn_predite": 10.5,
       "tn_arome": 17.7,
       "reference": false
     },
@@ -45,13 +45,13 @@
     },
     {
       "station": "Peyrus",
-      "tn_predite": 22.0,
+      "tn_predite": 21.9,
       "tn_arome": 23.3,
       "reference": false
     },
     {
       "station": "Saint_Julien_en_Quint",
-      "tn_predite": 18.1,
+      "tn_predite": 17.8,
       "tn_arome": 21.5,
       "reference": false
     },
@@ -69,13 +69,13 @@
     },
     {
       "station": "Chapelle_village",
-      "tn_predite": 14.4,
+      "tn_predite": 14.5,
       "tn_arome": 19.3,
       "reference": false
     },
     {
       "station": "Col_Rousset",
-      "tn_predite": 14.1,
+      "tn_predite": 13.7,
       "tn_arome": 17.8,
       "reference": false
     },
@@ -117,7 +117,7 @@
     }
   ],
   "nuages": 90.8,
-  "indice_inversion": 10.4,
+  "indice_inversion": 10.0,
   "tn_crete": 15.1,
-  "tn_taf_min": 4.7
+  "tn_taf_min": 5.1
 }
