@@ -89,13 +89,13 @@
       "station": "Bessas",
       "tn_arome": 22.3,
       "tn_predite": 21.5,
-      "tn_obs": null
+      "tn_obs": 22.8
     },
     {
       "station": "Salindres",
       "tn_arome": 22.4,
       "tn_predite": 19.6,
-      "tn_obs": 19.4
+      "tn_obs": 17.7
     },
     {
       "station": "St_Hilaire_de_Brethmas",
@@ -119,7 +119,7 @@
       "station": "Nimes_Garons",
       "tn_arome": 23.3,
       "tn_predite": 23.2,
-      "tn_obs": 19.9
+      "tn_obs": 20.8
     },
     {
       "station": "Avignon",
@@ -143,7 +143,7 @@
       "station": "Montelimar",
       "tn_arome": 23.7,
       "tn_predite": 22.4,
-      "tn_obs": null
+      "tn_obs": 18.6
     },
     {
       "station": "Montjoyer",
