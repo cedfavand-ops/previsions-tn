@@ -1,123 +1,123 @@
 {
-  "date_prevision": "2026-08-12",
+  "date_prevision": "2026-08-13",
   "stations": [
     {
       "station": "Darbounouse",
-      "tn_predite": 1.4,
-      "tn_arome": 17.1,
+      "tn_predite": 1.2,
+      "tn_arome": 18.4,
       "reference": false
     },
     {
       "station": "Oscence",
-      "tn_predite": 6.1,
-      "tn_arome": 19.5,
+      "tn_predite": 6.8,
+      "tn_arome": 21.2,
       "reference": false
     },
     {
       "station": "Chaud_Clapier",
-      "tn_predite": 6.0,
-      "tn_arome": 17.9,
+      "tn_predite": 7.3,
+      "tn_arome": 19.6,
       "reference": false
     },
     {
       "station": "Meaudre",
-      "tn_predite": 9.4,
-      "tn_arome": 18.0,
+      "tn_predite": 9.7,
+      "tn_arome": 18.5,
       "reference": false
     },
     {
       "station": "Lans_en_Vercors",
-      "tn_predite": 8.4,
-      "tn_arome": 17.5,
+      "tn_predite": 8.7,
+      "tn_arome": 18.2,
       "reference": false
     },
     {
       "station": "Engins",
-      "tn_predite": 18.3,
-      "tn_arome": 19.8,
+      "tn_predite": 18.5,
+      "tn_arome": 20.4,
       "reference": false
     },
     {
       "station": "Rochechinard",
-      "tn_predite": 21.5,
-      "tn_arome": 22.8,
+      "tn_predite": 22.4,
+      "tn_arome": 23.4,
       "reference": false
     },
     {
       "station": "Peyrus",
-      "tn_predite": 21.1,
-      "tn_arome": 23.6,
+      "tn_predite": 22.2,
+      "tn_arome": 24.6,
       "reference": false
     },
     {
       "station": "Saint_Julien_en_Quint",
-      "tn_predite": 15.8,
-      "tn_arome": 21.4,
+      "tn_predite": 16.7,
+      "tn_arome": 22.2,
       "reference": false
     },
     {
       "station": "Marignac_en_Diois",
-      "tn_predite": 19.3,
-      "tn_arome": 23.0,
+      "tn_predite": 20.3,
+      "tn_arome": 23.6,
       "reference": false
     },
     {
       "station": "Chatillon_Archiane",
-      "tn_predite": 16.6,
-      "tn_arome": 20.9,
+      "tn_predite": 16.9,
+      "tn_arome": 20.5,
       "reference": false
     },
     {
       "station": "Chapelle_village",
-      "tn_predite": 14.5,
-      "tn_arome": 20.0,
+      "tn_predite": 15.1,
+      "tn_arome": 21.3,
       "reference": false
     },
     {
       "station": "Col_Rousset",
-      "tn_predite": 14.0,
-      "tn_arome": 17.8,
+      "tn_predite": 14.3,
+      "tn_arome": 18.6,
       "reference": false
     },
     {
       "station": "Chichilianne",
-      "tn_predite": 18.4,
-      "tn_arome": 18.4,
+      "tn_predite": 17.9,
+      "tn_arome": 17.9,
       "reference": true
     },
     {
       "station": "Rochefort_Samson",
-      "tn_predite": 22.8,
-      "tn_arome": 22.8,
+      "tn_predite": 23.7,
+      "tn_arome": 23.7,
       "reference": true
     },
     {
       "station": "Crete_Moucherolle",
-      "tn_predite": 14.9,
-      "tn_arome": 14.9,
+      "tn_predite": 15.6,
+      "tn_arome": 15.6,
       "reference": true
     },
     {
       "station": "Grenoble_CEA",
-      "tn_predite": 26.5,
-      "tn_arome": 26.5,
+      "tn_predite": 26.3,
+      "tn_arome": 26.3,
       "reference": true
     },
     {
       "station": "Varces",
-      "tn_predite": 22.6,
-      "tn_arome": 22.6,
+      "tn_predite": 23.2,
+      "tn_arome": 23.2,
       "reference": true
     },
     {
       "station": "Saint_Martin_Heres",
-      "tn_predite": 25.2,
-      "tn_arome": 25.2,
+      "tn_predite": 25.6,
+      "tn_arome": 25.6,
       "reference": true
     }
   ],
-  "nuages": 0.9,
-  "indice_inversion": 13.5,
-  "tn_crete": 14.9,
-  "tn_taf_min": 1.4
+  "nuages": 9.0,
+  "indice_inversion": 14.4,
+  "tn_crete": 15.6,
+  "tn_taf_min": 1.2
 }
