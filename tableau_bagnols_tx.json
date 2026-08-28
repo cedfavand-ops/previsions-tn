@@ -1,185 +1,185 @@
 {
-  "date": "2026-08-26",
+  "date": "2026-08-28",
   "stations": [
     {
       "station": "Lussan_La_Leque",
-      "tx_arome": 24.5,
-      "tx_predite": 29.9,
-      "tx_obs": 30.0
+      "tx_arome": 26.7,
+      "tx_predite": 32.1,
+      "tx_obs": 31.0
     },
     {
       "station": "Verfeuil",
-      "tx_arome": 26.3,
-      "tx_predite": 31.4,
+      "tx_arome": 28.5,
+      "tx_predite": 33.6,
       "tx_obs": null
     },
     {
       "station": "Uzes",
-      "tx_arome": 27.2,
-      "tx_predite": 32.4,
-      "tx_obs": 29.9
-    },
-    {
-      "station": "Pujaut",
-      "tx_arome": 27.8,
-      "tx_predite": 33.6,
-      "tx_obs": 30.2
-    },
-    {
-      "station": "Saint_Paul_les_Fonts",
-      "tx_arome": 26.6,
-      "tx_predite": 32.2,
-      "tx_obs": 31.0
-    },
-    {
-      "station": "Saint_Pons_la_Calm",
-      "tx_arome": 24.8,
-      "tx_predite": 29.4,
-      "tx_obs": 27.7
-    },
-    {
-      "station": "Montaren",
-      "tx_arome": 26.1,
-      "tx_predite": 31.8,
-      "tx_obs": 28.7
-    },
-    {
-      "station": "Cavillargues",
-      "tx_arome": 26.5,
-      "tx_predite": 31.8,
-      "tx_obs": 29.5
-    },
-    {
-      "station": "Mejannes_le_Clap",
-      "tx_arome": 24.1,
-      "tx_predite": 29.4,
-      "tx_obs": 28.5
-    },
-    {
-      "station": "Orgnac_Aven",
-      "tx_arome": 25.6,
-      "tx_predite": 30.7,
-      "tx_obs": 29.0
-    },
-    {
-      "station": "Pont_St_Esprit",
-      "tx_arome": 27.7,
-      "tx_predite": 32.9,
-      "tx_obs": 29.7
-    },
-    {
-      "station": "Bollene",
-      "tx_arome": 27.7,
-      "tx_predite": 34.2,
-      "tx_obs": 30.5
-    },
-    {
-      "station": "Lapalud",
-      "tx_arome": 28.1,
-      "tx_predite": 33.0,
-      "tx_obs": 31.1
-    },
-    {
-      "station": "Donzere",
-      "tx_arome": 27.6,
-      "tx_predite": 33.5,
-      "tx_obs": null
-    },
-    {
-      "station": "Bessas",
-      "tx_arome": 25.3,
-      "tx_predite": 30.4,
-      "tx_obs": 29.2
-    },
-    {
-      "station": "Salindres",
-      "tx_arome": 25.8,
-      "tx_predite": 30.9,
-      "tx_obs": 29.9
-    },
-    {
-      "station": "St_Hilaire_de_Brethmas",
-      "tx_arome": 26.1,
-      "tx_predite": 31.9,
-      "tx_obs": 28.4
-    },
-    {
-      "station": "La_Rouviere",
-      "tx_arome": 27.0,
-      "tx_predite": 32.7,
-      "tx_obs": 30.1
-    },
-    {
-      "station": "Nimes_Courbessac",
-      "tx_arome": 26.7,
-      "tx_predite": 33.0,
-      "tx_obs": null
-    },
-    {
-      "station": "Nimes_Garons",
-      "tx_arome": 26.1,
-      "tx_predite": 32.2,
-      "tx_obs": 28.6
-    },
-    {
-      "station": "Avignon",
-      "tx_arome": 29.0,
-      "tx_predite": 34.8,
+      "tx_arome": 29.2,
+      "tx_predite": 33.7,
       "tx_obs": 31.4
     },
     {
-      "station": "Orange",
-      "tx_arome": 28.3,
+      "station": "Pujaut",
+      "tx_arome": 29.4,
+      "tx_predite": 34.7,
+      "tx_obs": 30.9
+    },
+    {
+      "station": "Saint_Paul_les_Fonts",
+      "tx_arome": 28.8,
+      "tx_predite": 34.3,
+      "tx_obs": 31.4
+    },
+    {
+      "station": "Saint_Pons_la_Calm",
+      "tx_arome": 27.7,
+      "tx_predite": 32.2,
+      "tx_obs": 28.2
+    },
+    {
+      "station": "Montaren",
+      "tx_arome": 28.4,
+      "tx_predite": 33.6,
+      "tx_obs": null
+    },
+    {
+      "station": "Cavillargues",
+      "tx_arome": 28.8,
+      "tx_predite": 34.1,
+      "tx_obs": 29.8
+    },
+    {
+      "station": "Mejannes_le_Clap",
+      "tx_arome": 26.1,
+      "tx_predite": 31.4,
+      "tx_obs": 30.1
+    },
+    {
+      "station": "Orgnac_Aven",
+      "tx_arome": 27.6,
+      "tx_predite": 32.7,
+      "tx_obs": 31.6
+    },
+    {
+      "station": "Pont_St_Esprit",
+      "tx_arome": 29.6,
+      "tx_predite": 34.7,
+      "tx_obs": 31.2
+    },
+    {
+      "station": "Bollene",
+      "tx_arome": 29.1,
+      "tx_predite": 35.4,
+      "tx_obs": 31.3
+    },
+    {
+      "station": "Lapalud",
+      "tx_arome": 29.6,
+      "tx_predite": 34.4,
+      "tx_obs": 32.3
+    },
+    {
+      "station": "Donzere",
+      "tx_arome": 28.4,
+      "tx_predite": 34.3,
+      "tx_obs": 32.5
+    },
+    {
+      "station": "Bessas",
+      "tx_arome": 27.0,
+      "tx_predite": 32.1,
+      "tx_obs": 30.9
+    },
+    {
+      "station": "Salindres",
+      "tx_arome": 27.3,
+      "tx_predite": 32.4,
+      "tx_obs": 32.1
+    },
+    {
+      "station": "St_Hilaire_de_Brethmas",
+      "tx_arome": 27.1,
+      "tx_predite": 32.8,
+      "tx_obs": 30.5
+    },
+    {
+      "station": "La_Rouviere",
+      "tx_arome": 29.2,
+      "tx_predite": 34.6,
+      "tx_obs": 27.5
+    },
+    {
+      "station": "Nimes_Courbessac",
+      "tx_arome": 28.4,
       "tx_predite": 34.2,
-      "tx_obs": 31.0
+      "tx_obs": 31.4
+    },
+    {
+      "station": "Nimes_Garons",
+      "tx_arome": 27.4,
+      "tx_predite": 33.6,
+      "tx_obs": 30.7
+    },
+    {
+      "station": "Avignon",
+      "tx_arome": 28.6,
+      "tx_predite": 34.7,
+      "tx_obs": 30.9
+    },
+    {
+      "station": "Orange",
+      "tx_arome": 29.7,
+      "tx_predite": 35.0,
+      "tx_obs": 30.7
     },
     {
       "station": "Carpentras",
       "tx_arome": 27.8,
       "tx_predite": 33.4,
-      "tx_obs": 32.3
+      "tx_obs": 30.1
     },
     {
       "station": "Montelimar",
-      "tx_arome": 26.0,
-      "tx_predite": 31.8,
-      "tx_obs": 30.3
+      "tx_arome": 27.2,
+      "tx_predite": 33.0,
+      "tx_obs": 31.0
     },
     {
       "station": "Montjoyer",
-      "tx_arome": 25.8,
-      "tx_predite": 32.0,
-      "tx_obs": 29.7
+      "tx_arome": 26.8,
+      "tx_predite": 33.0,
+      "tx_obs": 29.9
     },
     {
       "station": "Viviers",
-      "tx_arome": 25.9,
-      "tx_predite": 31.9,
-      "tx_obs": 30.7
+      "tx_arome": 27.4,
+      "tx_predite": 33.6,
+      "tx_obs": null
     },
     {
       "station": "Dent_de_Rez",
-      "tx_arome": 22.5,
-      "tx_predite": 27.1,
-      "tx_obs": 25.3
+      "tx_arome": 24.1,
+      "tx_predite": 28.6,
+      "tx_obs": 27.1
     },
     {
       "station": "Sorgues",
-      "tx_arome": 28.6,
-      "tx_predite": 34.6,
+      "tx_arome": 29.2,
+      "tx_predite": 35.0,
       "tx_obs": 30.7
     },
     {
       "station": "Visan",
       "tx_arome": 28.0,
-      "tx_predite": 33.9,
+      "tx_predite": 33.4,
       "tx_obs": null
     },
     {
       "station": "Gras",
-      "tx_arome": 24.6,
-      "tx_predite": 28.9,
-      "tx_obs": null
+      "tx_arome": 25.9,
+      "tx_predite": 30.1,
+      "tx_obs": 29.6
     }
   ]
 }
