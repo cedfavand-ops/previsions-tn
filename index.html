@@ -6,7 +6,6 @@
 <title>Previsions Tn/Tx - Vercors et Bagnols-sur-Ceze</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
 <style>
- 
   body { margin: 0; font-family: Arial, sans-serif; }
   #map { height: 100vh; width: 100%; cursor: crosshair; }
   .panel {
@@ -24,7 +23,7 @@
   }
   .legend-gradient {
     width: 200px; height: 14px;
-    background: linear-gradient(to right, #313695, #74add1, #fee090, #f46d43, #a50026);
+    background: linear-gradient(to right, #5500dd, #3300ee, #0044ff, #0088ff, #00bbff, #00ddcc, #00ee88, #33ff33, #88ff00, #ccff00, #ffee00, #ffcc00, #ffaa00, #ff8800, #ff5500, #ff2200, #ee0000);
     border-radius: 3px; margin: 4px 0;
   }
   .legend-labels { display: flex; justify-content: space-between; }
@@ -33,6 +32,10 @@
     background: rgba(0,0,0,0.8); color: white; padding: 6px 10px;
     border-radius: 6px; font-size: 14px; font-weight: bold;
     display: none;
+  }
+  .iso-label {
+    background: rgba(255,255,255,0.9); border: none; box-shadow: none;
+    font-size: 11px; font-weight: bold; color: #333;
   }
 </style>
 </head>
@@ -46,6 +49,7 @@
   <label><input type="radio" name="layer" value="tn_vercors" checked> Tn Vercors (nuit)</label>
   <label><input type="radio" name="layer" value="tn_bagnols"> Tn Bagnols (nuit)</label>
   <label><input type="radio" name="layer" value="tx_bagnols"> Tx Bagnols (jour)</label>
+  <label style="margin-top:10px;"><input type="checkbox" id="toggle-iso" checked> Afficher isolignes (5°C)</label>
   <div class="date-info" id="date-info">Chargement...</div>
   <div class="date-info">Survolez la carte pour voir la temperature</div>
 </div>
@@ -69,18 +73,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let currentOverlay = null;
+let currentIsolignes = null;
 let boundsData = {};
 let currentLayerId = 'tn_vercors';
 let currentGridData = null;
 const gridCache = {};
-
-const ranges = {
-  tn_vercors: [-10, 22],
-  tn_bagnols: [10, 25],
-  tx_bagnols: [25, 40]
-};
-
-const tooltip = document.getElementById('tooltip');
+let isoVisible = true;
 
 fetch('bounds.json')
   .then(r => r.json())
@@ -91,6 +89,29 @@ fetch('bounds.json')
   .catch(err => {
     document.getElementById('date-info').textContent = 'Erreur de chargement des donnees';
   });
+
+function chargerIsolignes(layerId) {
+  if (currentIsolignes) {
+    map.removeLayer(currentIsolignes);
+    currentIsolignes = null;
+  }
+  if (!isoVisible) return;
+  fetch(layerId + '_isolignes.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(geojson => {
+      currentIsolignes = L.geoJSON(geojson, {
+        style: { color: '#000000', weight: 1, opacity: 0.5 },
+        onEachFeature: function(feature, layer) {
+          if (feature.properties && feature.properties.temp !== undefined) {
+            layer.bindTooltip(feature.properties.temp + '°C', {
+              permanent: false, direction: 'center', className: 'iso-label'
+            });
+          }
+        }
+      }).addTo(map);
+    })
+    .catch(() => console.log('Isolignes indisponibles pour', layerId));
+}
 
 function showLayer(layerId) {
   currentLayerId = layerId;
@@ -105,12 +126,10 @@ function showLayer(layerId) {
   const bounds = [[info.lat_min, info.lon_min], [info.lat_max, info.lon_max]];
   currentOverlay = L.imageOverlay(layerId + '.png', bounds, { opacity: 0.75 }).addTo(map);
 
+  chargerIsolignes(layerId);
+
   const dateStr = info.date.slice(6,8) + '/' + info.date.slice(4,6) + '/' + info.date.slice(0,4);
   document.getElementById('date-info').textContent = info.nom + ' - ' + dateStr;
-
-  const [vmin, vmax] = ranges[layerId];
-  document.getElementById('legend-min').textContent = vmin + ' degC';
-  document.getElementById('legend-max').textContent = vmax + ' degC';
 
   if (layerId === 'tn_vercors') {
     map.setView([45.0, 5.4], 10);
@@ -136,18 +155,22 @@ document.querySelectorAll('input[name="layer"]').forEach(input => {
   input.addEventListener('change', (e) => showLayer(e.target.value));
 });
 
+document.getElementById('toggle-iso').addEventListener('change', (e) => {
+  isoVisible = e.target.checked;
+  chargerIsolignes(currentLayerId);
+});
+
 function getValueAt(lat, lon) {
   if (!currentGridData) return null;
   const d = currentGridData;
   if (lat < d.lat_min || lat > d.lat_max || lon < d.lon_min || lon > d.lon_max) return null;
-
   const row = Math.floor((d.lat_max - lat) / (d.lat_max - d.lat_min) * d.nrows);
   const col = Math.floor((lon - d.lon_min) / (d.lon_max - d.lon_min) * d.ncols);
-
   if (row < 0 || row >= d.nrows || col < 0 || col >= d.ncols) return null;
   return d.values[row][col];
 }
 
+const tooltip = document.getElementById('tooltip');
 map.on('mousemove', function(e) {
   const val = getValueAt(e.latlng.lat, e.latlng.lng);
   if (val !== null && val !== undefined) {
