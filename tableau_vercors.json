@@ -15,25 +15,25 @@
     },
     {
       "station": "Chaud_Clapier",
-      "tn_predite": 5.4,
+      "tn_predite": 4.6,
       "tn_arome": 10.0,
       "reference": false
     },
     {
       "station": "Meaudre",
-      "tn_predite": 8.5,
+      "tn_predite": 8.3,
       "tn_arome": 11.3,
       "reference": false
     },
     {
       "station": "Lans_en_Vercors",
-      "tn_predite": 8.1,
+      "tn_predite": 8.0,
       "tn_arome": 10.3,
       "reference": false
     },
     {
       "station": "Engins",
-      "tn_predite": 11.3,
+      "tn_predite": 11.2,
       "tn_arome": 12.4,
       "reference": false
     },
@@ -45,25 +45,25 @@
     },
     {
       "station": "Peyrus",
-      "tn_predite": 14.8,
+      "tn_predite": 14.7,
       "tn_arome": 15.8,
       "reference": false
     },
     {
       "station": "Saint_Julien_en_Quint",
-      "tn_predite": 12.6,
+      "tn_predite": 12.2,
       "tn_arome": 15.2,
       "reference": false
     },
     {
       "station": "Marignac_en_Diois",
-      "tn_predite": 14.3,
+      "tn_predite": 14.2,
       "tn_arome": 15.6,
       "reference": false
     },
     {
       "station": "Chatillon_Archiane",
-      "tn_predite": 11.8,
+      "tn_predite": 11.7,
       "tn_arome": 12.7,
       "reference": false
     },
@@ -75,7 +75,7 @@
     },
     {
       "station": "Col_Rousset",
-      "tn_predite": 8.7,
+      "tn_predite": 8.5,
       "tn_arome": 10.3,
       "reference": false
     },
@@ -117,7 +117,7 @@
     }
   ],
   "nuages": 44.3,
-  "indice_inversion": 1.8,
+  "indice_inversion": 2.6,
   "tn_crete": 7.2,
-  "tn_taf_min": 5.4
+  "tn_taf_min": 4.6
 }
