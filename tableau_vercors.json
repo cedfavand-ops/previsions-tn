@@ -15,13 +15,13 @@
     },
     {
       "station": "Chaud_Clapier",
-      "tn_predite": 8.7,
+      "tn_predite": 7.8,
       "tn_arome": 10.9,
       "reference": false
     },
     {
       "station": "Meaudre",
-      "tn_predite": 10.6,
+      "tn_predite": 10.5,
       "tn_arome": 12.5,
       "reference": false
     },
@@ -51,31 +51,31 @@
     },
     {
       "station": "Saint_Julien_en_Quint",
-      "tn_predite": 13.3,
+      "tn_predite": 13.1,
       "tn_arome": 14.5,
       "reference": false
     },
     {
       "station": "Marignac_en_Diois",
-      "tn_predite": 14.8,
+      "tn_predite": 14.7,
       "tn_arome": 15.5,
       "reference": false
     },
     {
       "station": "Chatillon_Archiane",
-      "tn_predite": 13.2,
+      "tn_predite": 13.1,
       "tn_arome": 14.3,
       "reference": false
     },
     {
       "station": "Chapelle_village",
-      "tn_predite": 12.2,
+      "tn_predite": 12.1,
       "tn_arome": 13.7,
       "reference": false
     },
     {
       "station": "Col_Rousset",
-      "tn_predite": 11.0,
+      "tn_predite": 10.7,
       "tn_arome": 12.1,
       "reference": false
     },
@@ -117,7 +117,7 @@
     }
   ],
   "nuages": 61.4,
-  "indice_inversion": 1.0,
+  "indice_inversion": 1.6,
   "tn_crete": 9.4,
-  "tn_taf_min": 8.4
+  "tn_taf_min": 7.8
 }
