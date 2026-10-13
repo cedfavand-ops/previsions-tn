@@ -98,7 +98,10 @@ function chargerIsolignes(layerId) {
     .then(r => r.json())
     .then(geojson => {
       currentIsolignes = L.geoJSON(geojson, {
-        style: { color: '#000000', weight: 1, opacity: 0.5 },
+       style: function(feature) {
+  var maj = feature.properties && feature.properties.majeure;
+  return { color: '#000000', weight: maj ? 1.5 : 0.6, opacity: maj ? 0.7 : 0.35 };
+},
         onEachFeature: function(feature, layer) {
           if (feature.properties && feature.properties.temp !== undefined) {
             layer.bindTooltip(feature.properties.temp + '°C', {
