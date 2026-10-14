@@ -23,7 +23,7 @@
   }
   .legend-gradient {
     width: 200px; height: 14px;
-    background: linear-gradient(to right, #5500dd, #3300ee, #0044ff, #0088ff, #00bbff, #00ddcc, #00ee88, #33ff33, #88ff00, #ccff00, #ffee00, #ffcc00, #ffaa00, #ff8800, #ff5500, #ff2200, #ee0000);
+    background: linear-gradient(to right, #8b0057, #6b0068, #4a0070, #2d0078, #1a1a8c, #0000cc, #0022e0, #0044ff, #0066ff, #0099ff, #00ccff, #00eeee, #00ffcc, #00ff88, #33ff33, #88ff00, #ccff00, #ffff00, #ffee00, #ffdd44);
     border-radius: 3px; margin: 4px 0;
   }
   .legend-labels { display: flex; justify-content: space-between; }
@@ -131,6 +131,10 @@ function showLayer(layerId) {
 
   const dateStr = info.date.slice(6,8) + '/' + info.date.slice(4,6) + '/' + info.date.slice(0,4);
   document.getElementById('date-info').textContent = info.nom + ' - ' + dateStr;
+  if (info.vmin !== undefined) {
+    document.getElementById('legend-min').textContent = info.vmin + ' °C';
+    document.getElementById('legend-max').textContent = info.vmax + ' °C';
+  }
 
   if (layerId === 'tn_vercors') {
     map.setView([45.0, 5.4], 10);
