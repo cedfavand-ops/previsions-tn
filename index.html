@@ -23,7 +23,7 @@
   }
   .legend-gradient {
     width: 200px; height: 14px;
-    background: linear-gradient(to right, #8b0057, #6b0068, #4a0070, #2d0078, #1a1a8c, #0000cc, #0022e0, #0044ff, #0066ff, #0099ff, #00ccff, #00eeee, #00ffcc, #00ff88, #33ff33, #88ff00, #ccff00, #ffff00, #ffee00, #ffdd44);
+    background: linear-gradient(to right, #8b0057, #6b0068, #4a0070, #2d0078, #1a1a8c, #0000cc, #0022e0, #0044ff, #0066ff, #0099ff, #00ccff, #00eeee, #00ffcc, #00ff88, #33ff33, #88ff00, #ccff00, #ffff00, #ffee00, #ffdd44, #ffbb33, #ff9900, #ff6600, #ee2200, #cc0000);
     border-radius: 3px; margin: 4px 0;
   }
   .legend-labels { display: flex; justify-content: space-between; }
@@ -66,7 +66,7 @@
 const map = L.map('map').setView([44.6, 4.9], 9);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 14,
+  maxZoom: 18,
   attribution: '© OpenStreetMap'
 }).addTo(map);
 
