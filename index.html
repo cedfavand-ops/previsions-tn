@@ -37,6 +37,10 @@
     background: rgba(255,255,255,0.9); border: none; box-shadow: none;
     font-size: 11px; font-weight: bold; color: #333;
   }
+
+.leaflet-overlay-pane { mix-blend-mode: multiply; }
+#map.sans-fusion .leaflet-overlay-pane { mix-blend-mode: normal; }
+#date-info { font-size: 13px; font-weight: 600; color: #222; }
 </style>
 </head>
 <body>
@@ -47,7 +51,8 @@
 <div class="panel">
   <h3>Couches</h3>
   <label><input type="radio" name="layer" value="tn_vercors" checked> Tn Vercors (nuit)</label>
-  <label style="margin-top:10px;"><input type="checkbox" id="toggle-iso" checked> Afficher isolignes (5°C)</label>
+  <label style="margin-top:10px;"><input type="checkbox" id="toggle-iso" checked> Afficher isolignes (1 °C)</label>
+  <label><input type="checkbox" id="toggle-mult" checked> Fond visible sous les couleurs</label>
   <div class="date-info" id="date-info">Chargement...</div>
   <div class="date-info">Survolez la carte pour voir la temperature</div>
 </div>
@@ -65,10 +70,15 @@
 <script>
 const map = L.map('map').setView([44.6, 4.9], 9);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18,
-  attribution: '© OpenStreetMap'
-}).addTo(map);
+const fondTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  maxNativeZoom: 17, maxZoom: 18,
+  attribution: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)'
+});
+const fondOsm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18, attribution: '© OpenStreetMap'
+});
+fondTopo.addTo(map);
+L.control.layers({'Relief (OpenTopoMap)': fondTopo, 'Routes (OpenStreetMap)': fondOsm}, null, {position: 'topleft'}).addTo(map);
 
 let currentOverlay = null;
 let currentIsolignes = null;
@@ -114,6 +124,16 @@ function chargerIsolignes(layerId) {
     .catch(() => console.log('Isolignes indisponibles pour', layerId));
 }
 
+function libelleDate(layerId, ymd) {
+  var d = new Date(+ymd.slice(0,4), +ymd.slice(4,6) - 1, +ymd.slice(6,8));
+  var d2 = new Date(d); d2.setDate(d2.getDate() + 1);
+  var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  var jour = function(x) { return x.getDate() === 1 ? '1er' : String(x.getDate()); };
+  if (layerId.indexOf('tx') === 0) return 'Tx du ' + jour(d2) + ' ' + mois[d2.getMonth()] + ' ' + d2.getFullYear();
+  if (d.getMonth() === d2.getMonth()) return 'Tn nuit du ' + jour(d) + ' au ' + jour(d2) + ' ' + mois[d2.getMonth()] + ' ' + d2.getFullYear();
+  return 'Tn nuit du ' + jour(d) + ' ' + mois[d.getMonth()] + ' au ' + jour(d2) + ' ' + mois[d2.getMonth()] + ' ' + d2.getFullYear();
+}
+
 function showLayer(layerId) {
   currentLayerId = layerId;
   if (currentOverlay) {
@@ -130,7 +150,7 @@ function showLayer(layerId) {
   chargerIsolignes(layerId);
 
   const dateStr = info.date.slice(6,8) + '/' + info.date.slice(4,6) + '/' + info.date.slice(0,4);
-  document.getElementById('date-info').textContent = info.nom + ' - ' + dateStr;
+  document.getElementById('date-info').textContent = libelleDate(layerId, info.date);
   if (info.vmin !== undefined) {
     document.getElementById('legend-min').textContent = info.vmin + ' °C';
     document.getElementById('legend-max').textContent = info.vmax + ' °C';
@@ -190,6 +210,10 @@ map.on('mousemove', function(e) {
 
 map.on('mouseout', function() {
   tooltip.style.display = 'none';
+});
+
+document.getElementById('toggle-mult').addEventListener('change', function(e) {
+  document.getElementById('map').classList.toggle('sans-fusion', !e.target.checked);
 });
 </script>
 
