@@ -5,9 +5,9 @@
     "lon_min": 5.1,
     "lon_max": 5.78108,
     "nom": "Tn Vercors",
-    "date": "20261018",
-    "vmin": 1.1,
-    "vmax": 9.3
+    "date": "20261019",
+    "vmin": 4.5,
+    "vmax": 13.8
   },
   "tn_bagnols": {
     "lat_min": 43.6,
