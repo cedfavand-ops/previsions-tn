@@ -1,123 +1,123 @@
 {
-  "date_prevision": "2026-10-18",
+  "date_prevision": "2026-10-19",
   "stations": [
     {
       "station": "Darbounouse",
-      "tn_predite": 3.2,
-      "tn_arome": 3.6,
+      "tn_predite": 7.5,
+      "tn_arome": 10.7,
       "reference": false
     },
     {
       "station": "Oscence",
-      "tn_predite": 4.2,
-      "tn_arome": 4.2,
+      "tn_predite": 7.6,
+      "tn_arome": 11.1,
       "reference": false
     },
     {
       "station": "Chaud_Clapier",
-      "tn_predite": 2.2,
-      "tn_arome": 2.0,
-      "reference": false
-    },
-    {
-      "station": "Meaudre",
-      "tn_predite": 4.5,
-      "tn_arome": 4.5,
-      "reference": false
-    },
-    {
-      "station": "Lans_en_Vercors",
-      "tn_predite": 4.8,
-      "tn_arome": 4.8,
-      "reference": false
-    },
-    {
-      "station": "Engins",
-      "tn_predite": 5.0,
-      "tn_arome": 5.3,
-      "reference": false
-    },
-    {
-      "station": "Rochechinard",
-      "tn_predite": 6.2,
-      "tn_arome": 6.2,
-      "reference": false
-    },
-    {
-      "station": "Peyrus",
-      "tn_predite": 7.2,
-      "tn_arome": 7.1,
-      "reference": false
-    },
-    {
-      "station": "Saint_Julien_en_Quint",
-      "tn_predite": 7.6,
-      "tn_arome": 7.4,
-      "reference": false
-    },
-    {
-      "station": "Marignac_en_Diois",
-      "tn_predite": 8.3,
+      "tn_predite": 6.9,
       "tn_arome": 8.6,
       "reference": false
     },
     {
-      "station": "Chatillon_Archiane",
+      "station": "Meaudre",
+      "tn_predite": 7.9,
+      "tn_arome": 11.4,
+      "reference": false
+    },
+    {
+      "station": "Lans_en_Vercors",
+      "tn_predite": 8.8,
+      "tn_arome": 11.1,
+      "reference": false
+    },
+    {
+      "station": "Engins",
+      "tn_predite": 9.6,
+      "tn_arome": 10.8,
+      "reference": false
+    },
+    {
+      "station": "Rochechinard",
+      "tn_predite": 10.8,
+      "tn_arome": 10.7,
+      "reference": false
+    },
+    {
+      "station": "Peyrus",
       "tn_predite": 9.1,
-      "tn_arome": 9.4,
+      "tn_arome": 9.5,
+      "reference": false
+    },
+    {
+      "station": "Saint_Julien_en_Quint",
+      "tn_predite": 10.2,
+      "tn_arome": 12.2,
+      "reference": false
+    },
+    {
+      "station": "Marignac_en_Diois",
+      "tn_predite": 12.2,
+      "tn_arome": 13.1,
+      "reference": false
+    },
+    {
+      "station": "Chatillon_Archiane",
+      "tn_predite": 11.3,
+      "tn_arome": 12.9,
       "reference": false
     },
     {
       "station": "Chapelle_village",
-      "tn_predite": 4.7,
-      "tn_arome": 4.7,
+      "tn_predite": 7.9,
+      "tn_arome": 9.5,
       "reference": false
     },
     {
       "station": "Col_Rousset",
-      "tn_predite": 3.9,
-      "tn_arome": 3.8,
+      "tn_predite": 8.3,
+      "tn_arome": 10.3,
       "reference": false
     },
     {
       "station": "Chichilianne",
-      "tn_predite": 4.8,
-      "tn_arome": 4.8,
+      "tn_predite": 11.3,
+      "tn_arome": 11.3,
       "reference": true
     },
     {
       "station": "Rochefort_Samson",
-      "tn_predite": 6.7,
-      "tn_arome": 6.7,
+      "tn_predite": 8.3,
+      "tn_arome": 8.3,
       "reference": true
     },
     {
       "station": "Crete_Moucherolle",
-      "tn_predite": 3.7,
-      "tn_arome": 3.7,
+      "tn_predite": 6.6,
+      "tn_arome": 6.6,
       "reference": true
     },
     {
       "station": "Grenoble_CEA",
+      "tn_predite": 12.2,
+      "tn_arome": 12.2,
+      "reference": true
+    },
+    {
+      "station": "Varces",
       "tn_predite": 7.9,
       "tn_arome": 7.9,
       "reference": true
     },
     {
-      "station": "Varces",
-      "tn_predite": 5.8,
-      "tn_arome": 5.8,
-      "reference": true
-    },
-    {
       "station": "Saint_Martin_Heres",
-      "tn_predite": 7.3,
-      "tn_arome": 7.3,
+      "tn_predite": 11.6,
+      "tn_arome": 11.6,
       "reference": true
     }
   ],
-  "nuages": 88.9,
-  "indice_inversion": 1.5,
-  "tn_crete": 3.7,
-  "tn_taf_min": 2.2
+  "nuages": 57.6,
+  "indice_inversion": -0.3,
+  "tn_crete": 6.6,
+  "tn_taf_min": 6.9
 }
