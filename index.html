@@ -46,6 +46,9 @@
 .commune-label .cv { display: inline-block; transform: translate(-50%, 3px);
   background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.4); border-radius: 4px;
   padding: 0 3px; font: 600 11px/14px Arial, sans-serif; color: #111; white-space: nowrap; }
+
+.commune-label .cv.cs { background: rgba(11,42,111,0.92); color: #fff; border: 1px solid #fff;
+  font-size: 12px; line-height: 16px; padding: 0 5px; }
 </style>
 </head>
 <body>
@@ -149,7 +152,7 @@ function majCommunes() {
   if (!communesVisibles) return;
   var z = map.getZoom();
   var seuil = z <= 9 ? 5000 : (z === 10 ? 1500 : (z === 11 ? 500 : 0));
-  communesData.forEach(function(c) { if (c.pop > seuil) communesGroup.addLayer(c.marker); });
+  communesData.forEach(function(c) { if (c.station || c.pop > seuil) communesGroup.addLayer(c.marker); });
 }
 
 function chargerCommunes(layerId) {
@@ -160,10 +163,10 @@ function chargerCommunes(layerId) {
     .then(function(r) { return r.json(); })
     .then(function(liste) {
       communesData = liste.map(function(c) {
-        var m = L.marker([c.lat, c.lon], {
-          icon: L.divIcon({className: 'commune-label', html: '<div class="cv">' + c.tn.toFixed(1) + '</div>', iconSize: [0, 0]})
-        }).bindTooltip(c.nom + ' — ' + c.tn.toFixed(1) + ' °C (' + c.pop + ' hab.)', {direction: 'top'});
-        return {pop: c.pop, marker: m};
+        var m = L.marker([c.lat, c.lon], {zIndexOffset: c.station ? 1000 : 0,
+          icon: L.divIcon({className: 'commune-label', html: (c.station ? '<div class="cv cs"><b>' + c.nom + '</b> ' + c.tn.toFixed(1) + '</div>' : '<div class="cv">' + c.tn.toFixed(1) + '</div>'), iconSize: [0, 0]})
+        }).bindTooltip(c.nom + ' — ' + c.tn.toFixed(1) + ' °C' + (c.station ? '' : ' (' + c.pop + ' hab.)'), {direction: 'top'});
+        return {pop: c.pop, station: !!c.station, marker: m};
       });
       majCommunes();
     })
@@ -258,6 +261,13 @@ document.getElementById('toggle-mult').addEventListener('change', function(e) {
 document.getElementById('toggle-communes').addEventListener('change', function(e) {
   communesVisibles = e.target.checked; majCommunes();
 });
+
+/* defauts-affichage */
+(function() {
+  var tm = document.getElementById('toggle-mult');
+  if (tm) { tm.checked = false; }
+  document.getElementById('map').classList.add('sans-fusion');
+})();
 </script>
 
 </body>
