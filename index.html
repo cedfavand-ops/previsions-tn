@@ -196,6 +196,7 @@ function showLayer(layerId) {
   if (info.vmin !== undefined) {
     document.getElementById('legend-min').textContent = info.vmin + ' °C';
     document.getElementById('legend-max').textContent = info.vmax + ' °C';
+    if (info.palette) { document.querySelector('.legend-gradient').style.background = 'linear-gradient(to right, ' + info.palette.join(', ') + ')'; }
   }
 
   if (layerId === 'tn_vercors') {
