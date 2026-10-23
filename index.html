@@ -49,6 +49,16 @@
 
 .commune-label .cv.cs { background: rgba(11,42,111,0.92); color: #fff; border: 1px solid #fff;
   font-size: 12px; line-height: 16px; padding: 0 5px; }
+
+#coupe-panel { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; z-index: 1200;
+  background: rgba(255,255,255,0.97); border-top: 2px solid #333; display: none; font-family: Arial, sans-serif; }
+#coupe-panel .coupe-entete { display: flex; justify-content: space-between; align-items: center;
+  height: 34px; padding: 0 12px; font-size: 13px; font-weight: 600; color: #222; }
+#coupe-panel button { margin-left: 8px; cursor: pointer; }
+#coupe-svg { width: 100%; height: 190px; display: block; }
+#coupe-info { position: absolute; pointer-events: none; display: none; background: rgba(0,0,0,0.8);
+  color: #fff; padding: 3px 7px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
+.coupe-on .legend { bottom: 245px; }
 </style>
 </head>
 <body>
@@ -62,6 +72,7 @@
   <label style="margin-top:10px;"><input type="checkbox" id="toggle-iso" checked> Afficher isolignes (1 °C)</label>
   <label><input type="checkbox" id="toggle-communes" checked> Valeurs sur les communes</label>
   <label><input type="checkbox" id="toggle-mult" checked> Fond visible sous les couleurs</label>
+  <label><input type="checkbox" id="toggle-coupe"> Coupe topographique (2 clics)</label>
   <div class="date-info" id="date-info">Chargement...</div>
   <div class="date-info">Survolez la carte pour voir la temperature</div>
 </div>
@@ -75,6 +86,14 @@
   </div>
 </div>
 
+<div id="coupe-panel">
+  <div class="coupe-entete">
+    <span id="coupe-titre">Cliquez deux points sur la carte (A puis B)</span>
+    <span><button id="coupe-effacer">Nouvelle coupe</button><button id="coupe-fermer">✕</button></span>
+  </div>
+  <svg id="coupe-svg"></svg>
+  <div id="coupe-info"></div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
 const map = L.map('map').setView([44.6, 4.9], 9);
@@ -173,6 +192,208 @@ function chargerCommunes(layerId) {
     .catch(function() { console.log('Valeurs communales indisponibles'); });
 }
 map.on('zoomend', majCommunes);
+
+const PALETTE_DEFAUT = ['#8b0057','#6b0068','#4a0070','#2d0078','#1a1a8c','#0000cc','#0022e0','#0044ff','#0066ff','#0099ff','#00ccff','#00eeee','#00ffcc','#00ff88','#33ff33','#88ff00','#ccff00','#ffff00','#ffee00','#ffdd44','#ffbb33','#ff9900','#ff6600','#ee2200','#cc0000'];
+let coupeActive = false, coupePts = [], coupeData = [], coupeMNT = null, coupeChargement = false, coupeSurvol = null;
+const coupeGroup = L.layerGroup().addTo(map);
+
+function coupeRgb(h) { return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)]; }
+
+function coupeCouleur(t) {
+  var info = boundsData[currentLayerId] || {};
+  var pal = info.palette || PALETTE_DEFAUT;
+  var vmin = info.vmin, vmax = info.vmax;
+  if (t === null || vmin === undefined || vmax === undefined || vmax <= vmin) return '#bbbbbb';
+  var tq = Math.floor((t - vmin) / 0.5) * 0.5 + vmin;
+  var r = Math.max(0, Math.min(1, (tq - vmin) / (vmax - vmin)));
+  var x = r * (pal.length - 1), i = Math.floor(x), f = x - i;
+  var a = coupeRgb(pal[i]), b = coupeRgb(pal[Math.min(i + 1, pal.length - 1)]);
+  return 'rgb(' + Math.round(a[0] + f * (b[0] - a[0])) + ',' + Math.round(a[1] + f * (b[1] - a[1])) + ',' + Math.round(a[2] + f * (b[2] - a[2])) + ')';
+}
+
+function coupeAlt(lat, lng) {
+  var d = coupeMNT;
+  if (!d) return null;
+  var fi = (d.lat_max - lat) / d.dlat - 0.5, fj = (lng - d.lon_min) / d.dlon - 0.5;
+  if (fi < 0 || fj < 0 || fi > d.nrows - 1 || fj > d.ncols - 1) return null;
+  var i0 = Math.floor(fi), j0 = Math.floor(fj);
+  var i1 = Math.min(i0 + 1, d.nrows - 1), j1 = Math.min(j0 + 1, d.ncols - 1);
+  var a = fi - i0, b = fj - j0, n = d.ncols;
+  var z00 = d.z[i0 * n + j0], z01 = d.z[i0 * n + j1], z10 = d.z[i1 * n + j0], z11 = d.z[i1 * n + j1];
+  if (z00 < -1000 || z01 < -1000 || z10 < -1000 || z11 < -1000) return null;
+  return z00 * (1 - a) * (1 - b) + z01 * (1 - a) * b + z10 * a * (1 - b) + z11 * a * b;
+}
+
+function coupeTemp(lat, lng) {
+  var d = currentGridData;
+  if (!d) return null;
+  if (lat < d.lat_min || lat > d.lat_max || lng < d.lon_min || lng > d.lon_max) return null;
+  var row = Math.floor((d.lat_max - lat) / (d.lat_max - d.lat_min) * d.nrows);
+  var col = Math.floor((lng - d.lon_min) / (d.lon_max - d.lon_min) * d.ncols);
+  if (row < 0 || row >= d.nrows || col < 0 || col >= d.ncols) return null;
+  var v = d.values[row][col];
+  return (v === null || v === undefined) ? null : v;
+}
+
+function coupeEffacer(fermer) {
+  coupeGroup.clearLayers();
+  coupePts = []; coupeData = [];
+  if (coupeSurvol) { map.removeLayer(coupeSurvol); coupeSurvol = null; }
+  document.getElementById('coupe-svg').innerHTML = '';
+  document.getElementById('coupe-info').style.display = 'none';
+  if (fermer) {
+    document.getElementById('coupe-panel').style.display = 'none';
+    document.body.classList.remove('coupe-on');
+  } else {
+    document.getElementById('coupe-titre').textContent = 'Cliquez deux points sur la carte (A puis B)';
+  }
+}
+
+function coupeChargerMNT(cb) {
+  if (coupeMNT) { cb(); return; }
+  if (coupeChargement) return;
+  coupeChargement = true;
+  document.getElementById('coupe-titre').textContent = 'Chargement du relief...';
+  fetch('mnt_vercors.json')
+    .then(function(r) { return r.json(); })
+    .then(function(d) { coupeMNT = d; coupeChargement = false; cb(); })
+    .catch(function() {
+      coupeChargement = false;
+      document.getElementById('coupe-titre').textContent = 'Relief indisponible (mnt_vercors.json)';
+    });
+}
+
+function coupeDessiner() {
+  var svg = document.getElementById('coupe-svg');
+  var titre = document.getElementById('coupe-titre');
+  var p1 = coupePts[0], p2 = coupePts[1];
+  var dist = map.distance(p1, p2);
+  var n = Math.max(2, Math.min(400, Math.round(dist / 60)));
+  var i;
+  coupeData = [];
+  for (i = 0; i <= n; i++) {
+    var t = i / n, lat = p1.lat + (p2.lat - p1.lat) * t, lng = p1.lng + (p2.lng - p1.lng) * t;
+    coupeData.push({d: dist * t, lat: lat, lng: lng, z: coupeAlt(lat, lng), tn: coupeTemp(lat, lng)});
+  }
+  var zs = coupeData.filter(function(p) { return p.z !== null; }).map(function(p) { return p.z; });
+  if (zs.length < 2) { svg.innerHTML = ''; titre.textContent = 'Ligne en dehors de la zone du relief'; return; }
+  var tns = coupeData.filter(function(p) { return p.tn !== null; }).map(function(p) { return p.tn; });
+  var zmin = Math.min.apply(null, zs), zmax = Math.max.apply(null, zs);
+  var txt = 'Coupe A–B : ' + (dist / 1000).toFixed(1) + ' km · altitude ' + Math.round(zmin) + '–' + Math.round(zmax) + ' m';
+  if (tns.length) txt += ' · Tn ' + Math.min.apply(null, tns).toFixed(1) + ' à ' + Math.max.apply(null, tns).toFixed(1) + ' °C';
+  titre.textContent = txt;
+
+  var W = svg.getBoundingClientRect().width || window.innerWidth, H = 190, ml = 52, mr = 16, mt = 22, mb = 24;
+  var y0 = Math.floor((zmin - 50) / 100) * 100, y1 = Math.ceil((zmax + 80) / 100) * 100;
+  var base = H - mb;
+  function sx(d) { return ml + d / dist * (W - ml - mr); }
+  function sy(z) { return mt + (y1 - z) / (y1 - y0) * (H - mt - mb); }
+
+  var s = '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#fff"/>';
+  var plage = y1 - y0, pas = plage > 1200 ? 400 : (plage > 600 ? 200 : 100);
+  for (var zz = Math.ceil(y0 / pas) * pas; zz <= y1; zz += pas) {
+    var yg = sy(zz);
+    s += '<line x1="' + ml + '" x2="' + (W - mr) + '" y1="' + yg.toFixed(1) + '" y2="' + yg.toFixed(1) + '" stroke="#ccc" stroke-width="1"/>';
+    s += '<text x="' + (ml - 5) + '" y="' + (yg + 3).toFixed(1) + '" text-anchor="end" font-size="10" fill="#555">' + zz + ' m</text>';
+  }
+  var bw = (W - ml - mr) / n + 1;
+  for (i = 0; i <= n; i++) {
+    var p = coupeData[i];
+    if (p.z === null) continue;
+    var xx = sx(p.d), yy = sy(p.z);
+    s += '<rect x="' + (xx - bw / 2).toFixed(1) + '" y="' + yy.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (base - yy).toFixed(1) + '" fill="' + coupeCouleur(p.tn) + '"/>';
+  }
+  var pts = coupeData.filter(function(q) { return q.z !== null; }).map(function(q) { return sx(q.d).toFixed(1) + ',' + sy(q.z).toFixed(1); }).join(' ');
+  s += '<polyline points="' + pts + '" fill="none" stroke="#222" stroke-width="1.6"/>';
+  s += '<line x1="' + ml + '" x2="' + (W - mr) + '" y1="' + base + '" y2="' + base + '" stroke="#333" stroke-width="1"/>';
+
+  var km = dist / 1000, step = km <= 3 ? 0.5 : (km <= 8 ? 1 : (km <= 16 ? 2 : (km <= 40 ? 5 : 10)));
+  for (var q = 0; q * step <= km + 1e-9; q++) {
+    var xt = sx(q * step * 1000);
+    s += '<line x1="' + xt.toFixed(1) + '" x2="' + xt.toFixed(1) + '" y1="' + base + '" y2="' + (base + 4) + '" stroke="#555"/>';
+    s += '<text x="' + xt.toFixed(1) + '" y="' + (base + 16) + '" text-anchor="middle" font-size="10" fill="#555">' + (q * step) + ' km</text>';
+  }
+
+  var iMin = -1, iMax = -1;
+  coupeData.forEach(function(pt, k) {
+    if (pt.tn === null || pt.z === null) return;
+    if (iMin < 0 || pt.tn < coupeData[iMin].tn) iMin = k;
+    if (iMax < 0 || pt.tn > coupeData[iMax].tn) iMax = k;
+  });
+  var pris = [], etiq = [];
+  function ajouter(k, gras) {
+    var x = sx(coupeData[k].d);
+    for (var m = 0; m < pris.length; m++) { if (Math.abs(pris[m] - x) < 40) return; }
+    pris.push(x); etiq.push({k: k, gras: gras});
+  }
+  if (iMin >= 0) ajouter(iMin, true);
+  if (iMax >= 0 && iMax !== iMin) ajouter(iMax, true);
+  for (i = 0; i <= n; i++) { if (coupeData[i].tn !== null && coupeData[i].z !== null) ajouter(i, false); }
+  etiq.forEach(function(e) {
+    var pt = coupeData[e.k], x = sx(pt.d), ys = sy(pt.z), y = Math.max(mt - 4, ys - 7);
+    s += '<circle cx="' + x.toFixed(1) + '" cy="' + ys.toFixed(1) + '" r="2.5" fill="#111"/>';
+    s += '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="middle" font-size="' + (e.gras ? 12 : 11) + '" font-weight="' + (e.gras ? 800 : 600) + '" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">' + pt.tn.toFixed(1) + '</text>';
+  });
+  s += '<text x="' + ml + '" y="14" font-size="13" font-weight="800">A</text>';
+  s += '<text x="' + (W - mr) + '" y="14" font-size="13" font-weight="800" text-anchor="end">B</text>';
+  s += '<line id="coupe-curseur" x1="0" x2="0" y1="' + mt + '" y2="' + base + '" stroke="#000" stroke-width="1" style="display:none"/>';
+  svg.innerHTML = s;
+
+  var cur = document.getElementById('coupe-curseur');
+  var inf = document.getElementById('coupe-info');
+  function fin() {
+    cur.style.display = 'none'; inf.style.display = 'none';
+    if (coupeSurvol) { map.removeLayer(coupeSurvol); coupeSurvol = null; }
+  }
+  svg.onmouseleave = fin;
+  svg.onmousemove = function(ev) {
+    var r = svg.getBoundingClientRect();
+    var f = (ev.clientX - r.left - ml) / (W - ml - mr);
+    if (f < 0 || f > 1) { fin(); return; }
+    var pt = coupeData[Math.round(f * n)];
+    var x = sx(pt.d);
+    cur.setAttribute('x1', x); cur.setAttribute('x2', x); cur.style.display = '';
+    inf.textContent = (pt.d / 1000).toFixed(2) + ' km · ' + (pt.z !== null ? Math.round(pt.z) + ' m' : '—') + ' · ' + (pt.tn !== null ? pt.tn.toFixed(1) + ' °C' : '—');
+    inf.style.display = 'block';
+    inf.style.left = (x > W - 200 ? x - 190 : x + 12) + 'px';
+    inf.style.top = '40px';
+    if (!coupeSurvol) {
+      coupeSurvol = L.circleMarker([pt.lat, pt.lng], {radius: 6, color: '#000', weight: 2, fillColor: '#ffff00', fillOpacity: 1}).addTo(map);
+    } else {
+      coupeSurvol.setLatLng([pt.lat, pt.lng]);
+    }
+  };
+}
+
+map.on('click', function(e) {
+  if (!coupeActive) return;
+  if (coupePts.length >= 2) coupeEffacer(false);
+  coupePts.push(e.latlng);
+  var lettre = coupePts.length === 1 ? 'A' : 'B';
+  L.circleMarker(e.latlng, {radius: 5, color: '#000', weight: 2, fillColor: '#fff', fillOpacity: 1})
+    .bindTooltip(lettre, {permanent: true, direction: 'top', offset: [0, -4]}).addTo(coupeGroup);
+  if (coupePts.length === 2) {
+    L.polyline(coupePts, {color: '#000', weight: 3, dashArray: '6 4'}).addTo(coupeGroup);
+    coupeChargerMNT(coupeDessiner);
+  }
+});
+
+document.getElementById('toggle-coupe').addEventListener('change', function(e) {
+  coupeActive = e.target.checked;
+  if (coupeActive) {
+    document.getElementById('coupe-panel').style.display = 'block';
+    document.body.classList.add('coupe-on');
+    coupeEffacer(false);
+  } else {
+    coupeEffacer(true);
+  }
+});
+document.getElementById('coupe-effacer').addEventListener('click', function() { coupeEffacer(false); });
+document.getElementById('coupe-fermer').addEventListener('click', function() {
+  document.getElementById('toggle-coupe').checked = false;
+  coupeActive = false;
+  coupeEffacer(true);
+});
 
 function showLayer(layerId) {
   currentLayerId = layerId;
