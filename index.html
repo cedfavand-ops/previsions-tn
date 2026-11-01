@@ -59,6 +59,13 @@
 #coupe-info { position: absolute; pointer-events: none; display: none; background: rgba(0,0,0,0.8);
   color: #fff; padding: 3px 7px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
 .coupe-on .legend { bottom: 245px; }
+
+:root { --coupe-h: min(48vh, 480px); }
+#coupe-panel { height: var(--coupe-h); }
+#coupe-scroll { overflow-x: scroll; overflow-y: hidden; height: calc(var(--coupe-h) - 36px); }
+#coupe-svg { display: block; }
+#coupe-panel select { margin-left: 8px; }
+.coupe-on .legend { bottom: calc(var(--coupe-h) + 15px); }
 </style>
 </head>
 <body>
@@ -89,9 +96,9 @@
 <div id="coupe-panel">
   <div class="coupe-entete">
     <span id="coupe-titre">Cliquez deux points sur la carte (A puis B)</span>
-    <span><button id="coupe-effacer">Nouvelle coupe</button><button id="coupe-fermer">✕</button></span>
+    <span><select id="coupe-pas" title="Espacement des valeurs"><option value="100" selected>1 valeur / 100 m</option><option value="200">1 valeur / 200 m</option><option value="500">1 valeur / 500 m</option></select><select id="coupe-exag" title="Exageration verticale"><option value="1">relief reel (x1)</option><option value="2">relief x2</option><option value="3" selected>relief x3</option><option value="5">relief x5</option><option value="0">ajuste a la largeur</option></select><button id="coupe-effacer">Nouvelle coupe</button><button id="coupe-fermer">✕</button></span>
   </div>
-  <svg id="coupe-svg"></svg>
+  <div id="coupe-scroll"><svg id="coupe-svg"></svg></div>
   <div id="coupe-info"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
@@ -265,32 +272,47 @@ function coupeChargerMNT(cb) {
 
 function coupeDessiner() {
   var svg = document.getElementById('coupe-svg');
+  var scroll = document.getElementById('coupe-scroll');
   var titre = document.getElementById('coupe-titre');
   var p1 = coupePts[0], p2 = coupePts[1];
   var dist = map.distance(p1, p2);
-  var n = Math.max(2, Math.min(400, Math.round(dist / 60)));
+  var pasM = parseInt(document.getElementById('coupe-pas').value, 10) || 100;
+  var n = Math.max(2, Math.min(800, Math.round(dist / 40)));
   var i;
-  coupeData = [];
-  for (i = 0; i <= n; i++) {
-    var t = i / n, lat = p1.lat + (p2.lat - p1.lat) * t, lng = p1.lng + (p2.lng - p1.lng) * t;
-    coupeData.push({d: dist * t, lat: lat, lng: lng, z: coupeAlt(lat, lng), tn: coupeTemp(lat, lng)});
+  function pointA(d) {
+    var t = Math.min(1, d / dist);
+    var lat = p1.lat + (p2.lat - p1.lat) * t, lng = p1.lng + (p2.lng - p1.lng) * t;
+    return {d: d, lat: lat, lng: lng, z: coupeAlt(lat, lng), tn: coupeTemp(lat, lng)};
   }
+  coupeData = [];
+  for (i = 0; i <= n; i++) { coupeData.push(pointA(dist * i / n)); }
   var zs = coupeData.filter(function(p) { return p.z !== null; }).map(function(p) { return p.z; });
   if (zs.length < 2) { svg.innerHTML = ''; titre.textContent = 'Ligne en dehors de la zone du relief'; return; }
   var tns = coupeData.filter(function(p) { return p.tn !== null; }).map(function(p) { return p.tn; });
   var zmin = Math.min.apply(null, zs), zmax = Math.max.apply(null, zs);
-  var txt = 'Coupe A–B : ' + (dist / 1000).toFixed(1) + ' km · altitude ' + Math.round(zmin) + '–' + Math.round(zmax) + ' m';
-  if (tns.length) txt += ' · Tn ' + Math.min.apply(null, tns).toFixed(1) + ' à ' + Math.max.apply(null, tns).toFixed(1) + ' °C';
-  titre.textContent = txt;
 
-  var W = svg.getBoundingClientRect().width || window.innerWidth, H = 190, ml = 52, mr = 16, mt = 22, mb = 24;
-  var y0 = Math.floor((zmin - 50) / 100) * 100, y1 = Math.ceil((zmax + 80) / 100) * 100;
+  var ml = 56, mr = 18, mt = 36, mb = 28;
+  var avail = scroll.clientWidth || window.innerWidth;
+  var H = Math.max(200, scroll.offsetHeight - 20);
+  var y0 = Math.floor((zmin - 30) / 50) * 50, y1 = Math.ceil((zmax + 60) / 50) * 50;
+  var vm = (y1 - y0) / (H - mt - mb);
+  var exagSel = parseFloat(document.getElementById('coupe-exag').value) || 0;
+  var W = exagSel > 0 ? ml + mr + dist / (exagSel * vm) : avail;
+  W = Math.max(W, ml + mr + (dist / pasM) * 13, 360);
+  svg.style.width = W + 'px';
+  svg.style.height = H + 'px';
   var base = H - mb;
   function sx(d) { return ml + d / dist * (W - ml - mr); }
   function sy(z) { return mt + (y1 - z) / (y1 - y0) * (H - mt - mb); }
+  var exag = (dist / (W - ml - mr)) / vm;
+
+  var txt = 'Coupe A–B : ' + (dist / 1000).toFixed(1) + ' km · altitude ' + Math.round(zmin) + '–' + Math.round(zmax) + ' m';
+  if (tns.length) { txt += ' · Tn ' + Math.min.apply(null, tns).toFixed(1) + ' à ' + Math.max.apply(null, tns).toFixed(1) + ' °C'; }
+  txt += ' · exagération verticale ×' + exag.toFixed(1);
+  titre.textContent = txt;
 
   var s = '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#fff"/>';
-  var plage = y1 - y0, pas = plage > 1200 ? 400 : (plage > 600 ? 200 : 100);
+  var plage = y1 - y0, pas = plage > 1000 ? 200 : (plage > 500 ? 100 : 50);
   for (var zz = Math.ceil(y0 / pas) * pas; zz <= y1; zz += pas) {
     var yg = sy(zz);
     s += '<line x1="' + ml + '" x2="' + (W - mr) + '" y1="' + yg.toFixed(1) + '" y2="' + yg.toFixed(1) + '" stroke="#ccc" stroke-width="1"/>';
@@ -299,7 +321,7 @@ function coupeDessiner() {
   var bw = (W - ml - mr) / n + 1;
   for (i = 0; i <= n; i++) {
     var p = coupeData[i];
-    if (p.z === null) continue;
+    if (p.z === null) { continue; }
     var xx = sx(p.d), yy = sy(p.z);
     s += '<rect x="' + (xx - bw / 2).toFixed(1) + '" y="' + yy.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (base - yy).toFixed(1) + '" fill="' + coupeCouleur(p.tn) + '"/>';
   }
@@ -307,32 +329,33 @@ function coupeDessiner() {
   s += '<polyline points="' + pts + '" fill="none" stroke="#222" stroke-width="1.6"/>';
   s += '<line x1="' + ml + '" x2="' + (W - mr) + '" y1="' + base + '" y2="' + base + '" stroke="#333" stroke-width="1"/>';
 
-  var km = dist / 1000, step = km <= 3 ? 0.5 : (km <= 8 ? 1 : (km <= 16 ? 2 : (km <= 40 ? 5 : 10)));
+  var km = dist / 1000, pxKm = (W - ml - mr) / km;
+  var cands = [0.1, 0.2, 0.5, 1, 2, 5, 10], step = 10;
+  for (i = 0; i < cands.length; i++) { if (cands[i] * pxKm >= 70) { step = cands[i]; break; } }
   for (var q = 0; q * step <= km + 1e-9; q++) {
     var xt = sx(q * step * 1000);
     s += '<line x1="' + xt.toFixed(1) + '" x2="' + xt.toFixed(1) + '" y1="' + base + '" y2="' + (base + 4) + '" stroke="#555"/>';
-    s += '<text x="' + xt.toFixed(1) + '" y="' + (base + 16) + '" text-anchor="middle" font-size="10" fill="#555">' + (q * step) + ' km</text>';
+    s += '<text x="' + xt.toFixed(1) + '" y="' + (base + 16) + '" text-anchor="middle" font-size="10" fill="#555">' + (q * step).toFixed(step < 1 ? 1 : 0) + ' km</text>';
   }
 
-  var iMin = -1, iMax = -1;
-  coupeData.forEach(function(pt, k) {
-    if (pt.tn === null || pt.z === null) return;
-    if (iMin < 0 || pt.tn < coupeData[iMin].tn) iMin = k;
-    if (iMax < 0 || pt.tn > coupeData[iMax].tn) iMax = k;
-  });
-  var pris = [], etiq = [];
-  function ajouter(k, gras) {
-    var x = sx(coupeData[k].d);
-    for (var m = 0; m < pris.length; m++) { if (Math.abs(pris[m] - x) < 40) return; }
-    pris.push(x); etiq.push({k: k, gras: gras});
+  var etiq = [];
+  for (var k = 0; k * pasM <= dist + 1e-6; k++) {
+    var pe = pointA(Math.min(k * pasM, dist));
+    if (pe.z !== null && pe.tn !== null) { etiq.push(pe); }
   }
-  if (iMin >= 0) ajouter(iMin, true);
-  if (iMax >= 0 && iMax !== iMin) ajouter(iMax, true);
-  for (i = 0; i <= n; i++) { if (coupeData[i].tn !== null && coupeData[i].z !== null) ajouter(i, false); }
-  etiq.forEach(function(e) {
-    var pt = coupeData[e.k], x = sx(pt.d), ys = sy(pt.z), y = Math.max(mt - 4, ys - 7);
-    s += '<circle cx="' + x.toFixed(1) + '" cy="' + ys.toFixed(1) + '" r="2.5" fill="#111"/>';
-    s += '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="middle" font-size="' + (e.gras ? 12 : 11) + '" font-weight="' + (e.gras ? 800 : 600) + '" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">' + pt.tn.toFixed(1) + '</text>';
+  var eMin = -1, eMax = -1;
+  etiq.forEach(function(pt, j) {
+    if (eMin < 0 || pt.tn < etiq[eMin].tn) { eMin = j; }
+    if (eMax < 0 || pt.tn > etiq[eMax].tn) { eMax = j; }
+  });
+  etiq.forEach(function(pt, j) {
+    var x = sx(pt.d), ys = sy(pt.z);
+    var gras = (j === eMin || j === eMax);
+    var col = j === eMin ? '#0033cc' : (j === eMax ? '#cc0000' : '#111');
+    var chaine = pt.tn.toFixed(1), fs = gras ? 12 : 10;
+    var y = Math.max(ys - 7, chaine.length * fs * 0.62 + 4);
+    s += '<circle cx="' + x.toFixed(1) + '" cy="' + ys.toFixed(1) + '" r="2" fill="#111"/>';
+    s += '<text transform="translate(' + (x + fs * 0.35).toFixed(1) + ',' + y.toFixed(1) + ') rotate(-90)" font-size="' + fs + '" font-weight="' + (gras ? 800 : 600) + '" fill="' + col + '" stroke="#fff" stroke-width="3" paint-order="stroke">' + chaine + '</text>';
   });
   s += '<text x="' + ml + '" y="14" font-size="13" font-weight="800">A</text>';
   s += '<text x="' + (W - mr) + '" y="14" font-size="13" font-weight="800" text-anchor="end">B</text>';
@@ -341,6 +364,7 @@ function coupeDessiner() {
 
   var cur = document.getElementById('coupe-curseur');
   var inf = document.getElementById('coupe-info');
+  var panel = document.getElementById('coupe-panel');
   function fin() {
     cur.style.display = 'none'; inf.style.display = 'none';
     if (coupeSurvol) { map.removeLayer(coupeSurvol); coupeSurvol = null; }
@@ -355,8 +379,9 @@ function coupeDessiner() {
     cur.setAttribute('x1', x); cur.setAttribute('x2', x); cur.style.display = '';
     inf.textContent = (pt.d / 1000).toFixed(2) + ' km · ' + (pt.z !== null ? Math.round(pt.z) + ' m' : '—') + ' · ' + (pt.tn !== null ? pt.tn.toFixed(1) + ' °C' : '—');
     inf.style.display = 'block';
-    inf.style.left = (x > W - 200 ? x - 190 : x + 12) + 'px';
-    inf.style.top = '40px';
+    var pr = panel.getBoundingClientRect(), px = ev.clientX - pr.left;
+    inf.style.left = (px > pr.width - 210 ? px - 200 : px + 14) + 'px';
+    inf.style.top = '44px';
     if (!coupeSurvol) {
       coupeSurvol = L.circleMarker([pt.lat, pt.lng], {radius: 6, color: '#000', weight: 2, fillColor: '#ffff00', fillOpacity: 1}).addTo(map);
     } else {
@@ -364,6 +389,15 @@ function coupeDessiner() {
     }
   };
 }
+
+['coupe-pas', 'coupe-exag'].forEach(function(id) {
+  document.getElementById(id).addEventListener('change', function() {
+    if (coupePts.length === 2 && coupeMNT) { coupeDessiner(); }
+  });
+});
+window.addEventListener('resize', function() {
+  if (coupeActive && coupePts.length === 2 && coupeMNT) { coupeDessiner(); }
+});
 
 map.on('click', function(e) {
   if (!coupeActive) return;
