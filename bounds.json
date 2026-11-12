@@ -28,9 +28,9 @@
       "#ee1100"
     ],
     "nom": "Tn Vercors",
-    "date": "20261111",
-    "vmin": 3.4,
-    "vmax": 14.0
+    "date": "20261112",
+    "vmin": -1.8,
+    "vmax": 9.7
   },
   "tn_bagnols": {
     "lat_min": 43.6,
@@ -61,9 +61,9 @@
       "#ee1100"
     ],
     "nom": "Tn Bagnols",
-    "date": "20260920",
-    "vmin": 11.0,
-    "vmax": 23.6
+    "date": "20261112",
+    "vmin": -0.8,
+    "vmax": 11.4
   },
   "tx_bagnols": {
     "lat_min": 43.6,
@@ -94,8 +94,8 @@
       "#ee1100"
     ],
     "nom": "Tx Bagnols",
-    "date": "20260920",
-    "vmin": 21.0,
-    "vmax": 37.6
+    "date": "20261112",
+    "vmin": 4.0,
+    "vmax": 21.7
   }
 }
