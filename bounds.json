@@ -28,9 +28,9 @@
       "#ee1100"
     ],
     "nom": "Tn Vercors",
-    "date": "20261122",
-    "vmin": -5.1,
-    "vmax": 8.9
+    "date": "20261123",
+    "vmin": -6.5,
+    "vmax": 4.8
   },
   "tn_bagnols": {
     "lat_min": 43.6,
